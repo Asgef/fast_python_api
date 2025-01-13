@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "python-api"
+version = "0.1.0"
+description = "test_task"
+authors = ["Asgef <asgefes1@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.13"
+python-dotenv = "^1.0.1"
+fastapi = "^0.115.6"
+unicorn = "^2.1.1"
+
+
+[tool.poetry.group.dev.dependencies]
+flake8 = "^7.1.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

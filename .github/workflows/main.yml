@@ -1,0 +1,39 @@
+#name: linter-test
+#
+#on:
+#  - push
+#  - pull_request
+#
+#jobs:
+#  build:
+#    runs-on: ubuntu-latest
+#    strategy:
+#      matrix:
+#        # we want to test our package on several versions of Python
+#        python-version: [3.12]
+#    steps:
+#      - uses: actions/checkout@v4
+#      - name: Set up Python ${{ matrix.python-version }}
+#        uses: actions/setup-python@v4
+#        with:
+#          python-version: ${{ matrix.python-version }}
+#        # make depends on poetry
+#      - name: Install dependencies
+#        run: |
+#          pip install poetry
+#          make install
+#      - name: Run lint
+#        run: make lint
+
+#      - name: Run test-coverage
+#        if: github.ref_name == 'main'
+#        run: make test-coverage
+#
+#      - name: Publish code coverage to Code Climate
+#        if: github.ref_name == 'main'
+#        uses: paambaati/codeclimate-action@v5.0.0
+#        env:
+#          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+#        with:
+#          debug: true
+
