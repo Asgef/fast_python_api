@@ -1,0 +1,16 @@
+venv/
+dist/
+**/.idea/
+__pycache__
+
+*.whl
+*.gz
+*.pyc
+*.iml
+
+.idea/*.iml
+coverage.xml
+
+.coverage
+.tool-versions
+
