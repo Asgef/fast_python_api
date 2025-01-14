@@ -10,3 +10,6 @@ generate_requirements:
 
 lint:
 	$(MANAGE) flake8 fast_python_api
+
+test:
+	$(MANAGE) pytest -vvv
