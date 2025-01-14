@@ -6,3 +6,7 @@ start:
 
 generate_requirements:
 	poetry export --without-hashes -f requirements.txt -o requirements.txt
+
+
+lint:
+	$(MANAGE) flake8 fast_python_api
