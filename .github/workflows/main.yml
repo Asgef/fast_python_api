@@ -25,15 +25,15 @@ jobs:
       - name: Run lint
         run: make lint
 
-#      - name: Run test-coverage
-#        if: github.ref_name == 'main'
-#        run: make test-coverage
-#
-#      - name: Publish code coverage to Code Climate
-#        if: github.ref_name == 'main'
-#        uses: paambaati/codeclimate-action@v5.0.0
-#        env:
-#          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-#        with:
-#          debug: true
+      - name: Run test-coverage
+        if: github.ref_name == 'main'
+        run: make test-coverage
+
+      - name: Publish code coverage to Code Climate
+        if: github.ref_name == 'main'
+        uses: paambaati/codeclimate-action@v5.0.0
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        with:
+          debug: true
 
