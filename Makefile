@@ -1,7 +1,7 @@
 MANAGE := poetry run
 
 install:
-	$(MANAGE) install
+	poetry install
 
 start:
 	$(MANAGE) uvicorn  fast_python_api.main:app --reload
