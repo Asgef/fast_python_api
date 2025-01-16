@@ -26,7 +26,8 @@ jobs:
         run: make lint
 
       - name: Run test-coverage
-        if: github.ref_name == 'main'
+        env:
+          TEST_SERVICE_URL: ${{ env.TEST_SERVICE_URL }}
         run: make test-coverage
 
       - name: Publish code coverage to Code Climate
