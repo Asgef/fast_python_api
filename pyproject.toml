@@ -1,9 +1,10 @@
 [tool.poetry]
-name = "python-api"
+name = "fast_python-api"
 version = "0.1.0"
 description = "test_task"
 authors = ["Asgef <asgefes1@gmail.com>"]
 readme = "README.md"
+
 
 [tool.poetry.dependencies]
 python = "^3.13"
