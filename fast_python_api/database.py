@@ -4,7 +4,7 @@ from fast_python_api.settings import settings
 
 
 # асинхронный движок
-engine = create_async_engine(settings.DATABASE_URL, echo=True)
+engine = create_async_engine(settings.database_url, echo=True)
 
 # Фабрика сессий
 async_session = async_sessionmaker(

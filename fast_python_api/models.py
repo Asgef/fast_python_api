@@ -13,8 +13,6 @@ class User(Base):
     last_name = Column(String, nullable=False)
     dob = Column(Date, nullable=False)
 
-    country = Column(String, nullable=False)
-    state = Column(String, nullable=False)
     city = Column(String, nullable=False)
     timezone = Column(String, nullable=False)
 
