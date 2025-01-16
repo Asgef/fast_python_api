@@ -9,7 +9,7 @@ dotenv.load_dotenv()
 
 
 class Settings(BaseSettings):
-    test_service_url: str= Field(
+    test_service_url: str = Field(
         ..., json_schema_extra={'env': 'TEST_SERVICE_URL'}
     )
     param_test_api: Dict[str, Any] = Field(
@@ -20,7 +20,6 @@ class Settings(BaseSettings):
         default="sqlite:///test.db",
         json_schema_extra={'env': 'DATABASE_URL'}
     )
-
 
     model_config = ConfigDict(
         env_file='.env',
