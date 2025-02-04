@@ -22,7 +22,6 @@ class User(Base):
     # login
     login = relationship("Login", back_populates="user", uselist=False)
 
-
     def __repr__(self):
         name_repr = (
             f'{self.name.title} {self.name.first_name} {self.name.last_name}'
