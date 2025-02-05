@@ -27,3 +27,6 @@ test:
 
 test-coverage:
 	poetry run pytest --cov=./ --cov-report=xml
+
+shell:
+	$(MANAGE) ipython
