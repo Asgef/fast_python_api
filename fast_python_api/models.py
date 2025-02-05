@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, Date, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
+from datetime import datetime, timezone
 import uuid
 
 
@@ -10,12 +11,19 @@ Base = declarative_base()
 class User(Base):
     __tablename__ = 'users'
 
-    id = Column(String, primary_key=True, unique=True, index=True)
+    id = Column(
+        String,
+        primary_key=True,
+        unique=True,
+        index=True,
+        default=lambda: str(uuid.uuid4())
+    )
     dob = Column(Date, nullable=False)
     city = Column(String, nullable=False)
     email = Column(String, unique=True, nullable=False)
-
-    created_at = Column(Date, nullable=False)
+    created_at = Column(
+        Date, nullable=False, default=lambda: datetime.now(timezone.utc)
+    )
 
     # Связываем с Name
     name = relationship("Name", back_populates="user", uselist=False)
@@ -39,7 +47,9 @@ class Name(Base):
     __tablename__ = 'names'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    user_id = Column(String, ForeignKey('users.id'))
+    user_id = Column(
+        String, ForeignKey('users.id'), nullable=False, unique=True
+    )
     title = Column(String, nullable=False)
     first_name = Column(String, nullable=False)
     last_name = Column(String, nullable=False)
@@ -61,12 +71,12 @@ class Login(Base):
 
     uuid = Column(
         String,
+        ForeignKey('users.id'),
         primary_key=True,
+        nullable=False,
         unique=True,
         index=True,
-        default=lambda: str(uuid.uuid4())
     )
-    user_id = Column(String, ForeignKey('users.id'), nullable=False)
     username = Column(String, unique=True, nullable=False)
     password = Column(String, nullable=False)
 
