@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, ConfigDict
 from datetime import date, datetime
 import uuid
 
@@ -9,7 +9,7 @@ class NameBase(BaseModel):
     last_name: str
 
     class Config:
-        model_config = {'from_attributes': True}
+        model_config = ConfigDict(from_attributes=True)
 
 
 class LoginBase(BaseModel):
@@ -17,7 +17,7 @@ class LoginBase(BaseModel):
     uuid: uuid.UUID
 
     class Config:
-        model_config = {'from_attributes': True}
+        model_config = ConfigDict(from_attributes=True)
 
 
 class UserBase(BaseModel):
@@ -30,4 +30,4 @@ class UserBase(BaseModel):
     created_at: datetime
 
     class Config:
-        model_config = {'from_attributes': True}
+        model_config = ConfigDict(from_attributes=True)

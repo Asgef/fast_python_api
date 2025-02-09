@@ -1,16 +1,16 @@
-from fast_python_api.database import async_session
-from sqlalchemy import select
 from fastapi import HTTPException, Depends, status
+from sqlalchemy import select
+from sqlalchemy.orm import joinedload
+import jwt
+from jwt.exceptions import InvalidTokenError
+from typing import Annotated
+from fast_python_api.settings import settings
 from fast_python_api.models import User, Login
 from fast_python_api.chemas.user import UserInDB
-from typing import Annotated
-from sqlalchemy.orm import joinedload
-from fast_python_api.auth.hashing import verify_password
-from fast_python_api.auth.token import oauth2_scheme
-from fast_python_api.settings import settings
 from fast_python_api.chemas.token import TokenData
-from jwt.exceptions import InvalidTokenError
-import jwt
+from fast_python_api.database import async_session
+from fast_python_api.auth.token import oauth2_scheme
+from fast_python_api.auth.hashing import verify_password
 
 
 async def get_user(username: str):
