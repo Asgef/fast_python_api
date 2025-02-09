@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Date, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime, Date, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from datetime import datetime, timezone
@@ -22,13 +22,32 @@ class User(Base):
     city = Column(String, nullable=False)
     email = Column(String, unique=True, nullable=False)
     created_at = Column(
-        Date, nullable=False, default=lambda: datetime.now(timezone.utc)
+        DateTime, nullable=False, default=lambda: datetime.now(timezone.utc)
     )
 
     # Связываем с Name
     name = relationship("Name", back_populates="user", uselist=False)
     # login
     login = relationship("Login", back_populates="user", uselist=False)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "dob": self.dob,
+            "city": self.city,
+            "email": self.email,
+            "created_at": self.created_at,
+            "name": {
+                "title": self.name.title,
+                "first_name": self.name.first_name,
+                "last_name": self.name.last_name,
+            },
+            "login": {
+                "uuid": self.login.uuid,
+                "username": self.login.username,
+                "password": self.login.password,
+            },
+        }
 
     def __repr__(self):
         name_repr = (

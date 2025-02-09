@@ -20,6 +20,9 @@ class Settings(BaseSettings):
         default="sqlite:///test.db",
         json_schema_extra={'env': 'DATABASE_URL'}
     )
+    SECRET_KEY: str ='37f6815074314573cd30e5702e8bf7c8e9aba0b77fb9b332213606d827b5a0fa'
+    ALGORITHM: str = "HS256"
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
 
     model_config = ConfigDict(
         env_file='.env',
