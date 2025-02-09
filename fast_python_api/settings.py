@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     )
     DEBUG: bool = Field(default=False)
     database_url: str = Field(
-        default="sqlite:///test.db",
+        default="postgresql+asyncpg://postgres:postgres@localhost:5432/test_db",
         json_schema_extra={'env': 'DATABASE_URL'}
     )
     SECRET_KEY: str = '37f6815074314573cd30e5702e8bf7c8e9aba0b77fb9b332213606d827b5a0fa'  # noqa
