@@ -10,7 +10,7 @@ dotenv.load_dotenv()
 
 class Settings(BaseSettings):
     test_service_url: str = Field(
-        ..., json_schema_extra={'env': 'TEST_SERVICE_URL'}
+        default="https://randomuser.me/api", json_schema_extra={'env': 'TEST_SERVICE_URL'}
     )
     param_test_api: Dict[str, Any] = Field(
         default_factory=lambda: {"results": "5"}
