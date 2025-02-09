@@ -5,12 +5,10 @@ from pydantic import ConfigDict
 class LoginInDB(LoginBase):
     password: str
 
-    class Config:
-        model_config = ConfigDict(from_attributes=True)
+    model_config = ConfigDict(from_attributes=True)
 
 
 class UserInDB(UserBase):
     login: LoginInDB
 
-    class Config:
-        model_config = ConfigDict(from_attributes=True)
+    model_config = ConfigDict(from_attributes=True)

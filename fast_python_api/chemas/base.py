@@ -8,16 +8,14 @@ class NameBase(BaseModel):
     first_name: str
     last_name: str
 
-    class Config:
-        model_config = ConfigDict(from_attributes=True)
+    model_config = ConfigDict(from_attributes=True)
 
 
 class LoginBase(BaseModel):
     username: str
     uuid: uuid.UUID
 
-    class Config:
-        model_config = ConfigDict(from_attributes=True)
+    model_config = ConfigDict(from_attributes=True)
 
 
 class UserBase(BaseModel):
@@ -29,5 +27,4 @@ class UserBase(BaseModel):
     email: EmailStr
     created_at: datetime
 
-    class Config:
-        model_config = ConfigDict(from_attributes=True)
+    model_config = ConfigDict(from_attributes=True)
