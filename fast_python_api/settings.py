@@ -1,7 +1,7 @@
 from typing import Any, Dict
 import dotenv
 from pydantic_settings import BaseSettings
-from pydantic import Field, ConfigDict
+from pydantic import Field
 import os
 
 
@@ -9,6 +9,8 @@ dotenv.load_dotenv()
 
 
 class Settings(BaseSettings):
+    env_file: str = os.path.join(os.path.dirname(__file__), '.env')
+    env_file_encoding: str = 'utf-8'
     test_service_url: str = Field(
         default="https://randomuser.me/api",
         json_schema_extra={'env': 'TEST_SERVICE_URL'}
@@ -27,13 +29,5 @@ class Settings(BaseSettings):
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
 
-    model_config = ConfigDict(
-        env_file='.env',
-        env_file_encoding='utf-8',
-        extra='ignore'
-    )
 
-
-settings = Settings(
-    _env_file=os.path.join(os.path.dirname(__file__), '.env')
-)
+settings = Settings()

@@ -51,6 +51,7 @@ jobs:
       - name: Run test-coverage
         env:
           TEST_SERVICE_URL: ${{ env.TEST_SERVICE_URL }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
           DATABASE_URL: postgresql+asyncpg://postgres:postgres@localhost:5432/test_db
           GITHUB_ACTIONS: true
         run: make test-coverage
