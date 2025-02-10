@@ -12,3 +12,7 @@ class UserInDB(UserBase):
     login: LoginInDB
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class UserPublic(UserBase):
+    pass
