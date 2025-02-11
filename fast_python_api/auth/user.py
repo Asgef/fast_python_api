@@ -12,9 +12,10 @@ from fast_python_api.chemas.token import TokenData
 from fast_python_api.database import async_session
 from fast_python_api.auth.token import oauth2_scheme
 from fast_python_api.auth.hashing import verify_password
+from uuid import UUID
 
 
-async def get_user(username: str):
+async def get_user_by_username(username: Annotated[str, Depends()]):
     async with async_session() as session:
         query = (
             select(User)
@@ -24,7 +25,24 @@ async def get_user(username: str):
         )
         result = await session.execute(query)
         user_db = result.scalars().first()
-        return UserInDB(**user_db.to_dict())
+    return UserInDB(**user_db.to_dict())
+
+
+async def get_user_by_id(
+        user_uuid: Annotated[UUID, Depends()]
+) -> UserInDB | None:
+    async with async_session() as session:
+        query = (
+            select(User)
+            .join(Login, User.id == Login.uuid)
+            .options(joinedload(User.login), joinedload(User.name))
+            .where(User.id == str(user_uuid))
+        )
+        result = await session.execute(query)
+        user_db = result.scalars().first()
+    if not user_db:
+        return None
+    return UserInDB(**user_db.to_dict())
 
 
 async def get_users():
@@ -40,7 +58,7 @@ async def get_users():
 
 
 async def authenticate_user(username: str, password: str):
-    user = await get_user(username)
+    user = await get_user_by_username(username)
 
     if not user or not verify_password(password, user.login.password):
         return False
@@ -69,5 +87,5 @@ async def verify_access_token(token: Annotated[str, Depends(oauth2_scheme)]):
 async def get_current_user(
         token: Annotated[TokenData, Depends(verify_access_token)]
 ):
-    user = await get_user(username=token.username)
+    user = await get_user_by_username(username=token.username)
     return user
