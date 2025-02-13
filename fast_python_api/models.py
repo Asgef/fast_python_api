@@ -22,7 +22,9 @@ class User(Base):
     city = Column(String, nullable=False)
     email = Column(String, unique=True, nullable=False)
     created_at = Column(
-        DateTime, nullable=False, default=lambda: datetime.now(timezone.utc)
+        DateTime(timezone=True),
+        nullable=False,
+        default=lambda: datetime.now(timezone.utc)
     )
 
     # Связываем с Name
@@ -44,6 +46,7 @@ class User(Base):
             },
             "login": {
                 "uuid": self.login.uuid,
+                "role": self.login.role,
                 "username": self.login.username,
                 "password": self.login.password,
             },
@@ -98,6 +101,7 @@ class Login(Base):
     )
     username = Column(String, unique=True, nullable=False)
     password = Column(String, nullable=False)
+    role = Column(String(50), nullable=False, default="user")
 
     user = relationship("User", back_populates="login")
 
