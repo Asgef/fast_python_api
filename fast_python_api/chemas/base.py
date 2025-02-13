@@ -1,6 +1,5 @@
 from pydantic import BaseModel, EmailStr, ConfigDict
-from datetime import date, datetime
-import uuid
+from datetime import date
 
 
 class NameBase(BaseModel):
@@ -12,19 +11,18 @@ class NameBase(BaseModel):
 
 
 class LoginBase(BaseModel):
+
     username: str
-    uuid: uuid.UUID
+    role: str = "user"
 
     model_config = ConfigDict(from_attributes=True)
 
 
 class UserBase(BaseModel):
-    id: str
     name: NameBase
     login: LoginBase
     dob: date
     city: str
     email: EmailStr
-    created_at: datetime
 
     model_config = ConfigDict(from_attributes=True)

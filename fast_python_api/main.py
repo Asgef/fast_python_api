@@ -4,7 +4,7 @@ from typing import Annotated
 from fast_python_api.services import extermal_api
 from fast_python_api.auth import routes as auth_routes
 from fast_python_api.auth.user import get_current_user
-from fast_python_api.chemas.user import UserPublic
+from fast_python_api.chemas.user_crud import UserPublic
 from fast_python_api import routes as users_router
 
 
@@ -21,8 +21,8 @@ async def homepage():
     return JSONResponse({'Hello': 'World'})
 
 
-@app.get("/me", response_model=UserPublic)
+@app.get("/me")
 async def read_users_me(
         current_user: Annotated[UserPublic, Depends(get_current_user)]
-):
+) -> UserPublic:
     return current_user

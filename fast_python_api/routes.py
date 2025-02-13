@@ -1,9 +1,10 @@
 from fastapi import APIRouter, Depends, Query, Path, status, HTTPException
 from typing import Annotated
 from fast_python_api.auth.user import (
-    verify_access_token, get_users, get_user_by_id
+    verify_access_token, get_users, get_user_by_id, create_user
 )
-from fast_python_api.chemas.user import UserPublic
+from fast_python_api.chemas.user_crud import UserPublic, UserCreate
+from fast_python_api.chemas.token import TokenData
 from uuid import UUID
 
 
@@ -28,3 +29,17 @@ async def get_user(user_id: Annotated[UUID, Path()]) -> UserPublic:
             detail="User not found"
         )
     return UserPublic(**user.model_dump())
+
+
+@router.post('/create')
+async def create_new_user(
+        user_data: Annotated[UserCreate, UserCreate],
+        current_user: Annotated[TokenData, Depends(verify_access_token)]
+) -> UserPublic:
+    if current_user.role != 'admin':
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="You do not have permission to create users"
+        )
+    user = await create_user(user_data)
+    return user
