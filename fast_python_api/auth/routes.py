@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from typing import Annotated
 from datetime import timedelta
-from fast_python_api.auth.user import authenticate_user
+from fast_python_api.auth.user_auth import authenticate_user
 from fast_python_api.auth.token import create_access_token
 from fast_python_api.chemas.token import Token
 from fast_python_api.settings import settings

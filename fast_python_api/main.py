@@ -3,10 +3,9 @@ from starlette.responses import JSONResponse
 from typing import Annotated
 from fast_python_api.services import extermal_api
 from fast_python_api.auth import routes as auth_routes
-from fast_python_api.auth.user import get_current_user
+from fast_python_api.auth.user_auth import get_current_user
 from fast_python_api.chemas.user_crud import UserPublic
-from fast_python_api import routes as users_router
-
+from fast_python_api.core import routes as users_router
 
 app = FastAPI()
 

@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, Query, Path, status, HTTPException
 from typing import Annotated
-from fast_python_api.auth.user import (
-    verify_access_token, get_users, get_user_by_id, create_user
-)
+from fast_python_api.auth.user_auth import verify_access_token
 from fast_python_api.chemas.user_crud import UserPublic, UserCreate
 from fast_python_api.chemas.token import TokenData
+from fast_python_api.core.user_db import get_users, get_user_by_id
+from fast_python_api.core.user_crud import create_user
 from uuid import UUID
 
 
