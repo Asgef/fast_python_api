@@ -28,9 +28,13 @@ class User(Base):
     )
 
     # Связываем с Name
-    name = relationship("Name", back_populates="user", uselist=False)
+    name = relationship(
+        "Name", back_populates="user", uselist=False, lazy="joined"
+    )
     # login
-    login = relationship("Login", back_populates="user", uselist=False)
+    login = relationship(
+        "Login", back_populates="user", uselist=False, lazy="joined"
+    )
 
     def to_dict(self):
         return {
