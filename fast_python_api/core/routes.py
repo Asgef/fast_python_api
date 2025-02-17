@@ -66,4 +66,3 @@ async def update_user_endpoint(
             detail="You do not have permission to update this user"
         )
     return await update_user(user_id, update_data, session)
-

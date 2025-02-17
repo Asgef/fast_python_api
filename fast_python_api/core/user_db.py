@@ -4,8 +4,6 @@ from sqlalchemy.orm import joinedload
 from typing import Annotated
 from fast_python_api.chemas.user_crud import UserPublic
 from fast_python_api.models import User, Login
-from fast_python_api.chemas.user_db import UserInDB
-from fast_python_api.database import async_session, get_session
 from pydantic import EmailStr
 from sqlalchemy.sql import exists
 from sqlalchemy.ext.asyncio import AsyncSession

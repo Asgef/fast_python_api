@@ -13,7 +13,9 @@ from fast_python_api.chemas.user_db import UserInDB
 from fast_python_api.chemas.user_crud import UserPublic
 
 
-async def authenticate_user(username: str, password: str, session: AsyncSession) -> UserPublic | None:
+async def authenticate_user(
+        username: str, password: str, session: AsyncSession
+) -> UserPublic | None:
     user = await get_user_by_username(username, session)
 
     if not user or not verify_password(password, user.login.password):

@@ -1,11 +1,12 @@
 from fastapi import HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.orm import joinedload
-from fast_python_api.chemas.user_crud import UserPublic, UserCreate, UserUpdate, LoginUpdate, NameUpdate
+from fast_python_api.chemas.user_crud import UserPublic, UserCreate, UserUpdate
 from fast_python_api.models import User, Login, Name
-from fast_python_api.database import async_session
 from fast_python_api.auth.hashing import get_password_hash
-from fast_python_api.core.user_db import email_exists, username_exists, get_user_by_id
+from fast_python_api.core.user_db import (
+    email_exists, username_exists, get_user_by_id
+)
 import uuid
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -50,7 +51,7 @@ async def create_user(
     return UserPublic(**user.to_dict())
 
 
-async def update_user(
+async def update_user(  # noqa C901
         user_id: uuid.UUID,
         update_data: UserUpdate,
         session: AsyncSession
