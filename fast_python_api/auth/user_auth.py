@@ -7,15 +7,19 @@ from fast_python_api.chemas.token import TokenData
 from fast_python_api.auth.token import oauth2_scheme
 from fast_python_api.auth.hashing import verify_password
 from fast_python_api.core.user_db import get_user_by_username
+from sqlalchemy.ext.asyncio import AsyncSession
+from fast_python_api.database import get_session
+from fast_python_api.chemas.user_db import UserInDB
+from fast_python_api.chemas.user_crud import UserPublic
 
 
-async def authenticate_user(username: str, password: str):
-    user = await get_user_by_username(username)
+async def authenticate_user(username: str, password: str, session: AsyncSession) -> UserPublic | None:
+    user = await get_user_by_username(username, session)
 
     if not user or not verify_password(password, user.login.password):
-        return False
+        return None
 
-    return user
+    return UserPublic(**user.to_dict())
 
 
 async def verify_access_token(
@@ -32,15 +36,17 @@ async def verify_access_token(
         )
         username: str = payload.get("sub")
         role: str = payload.get("role")
+        user_id: str = payload.get("id")
         if username is None:
             raise credentials_exception
-        return TokenData(username=username, role=role)
+        return TokenData(username=username, role=role, id=user_id)
     except InvalidTokenError:
         raise credentials_exception
 
 
 async def get_current_user(
-        token: Annotated[TokenData, Depends(verify_access_token)]
-):
-    user = await get_user_by_username(username=token.username)
-    return user
+        token: Annotated[TokenData, Depends(verify_access_token)],
+        session: Annotated[AsyncSession, Depends(get_session)]
+) -> UserInDB:
+    user = await get_user_by_username(username=token.username, session=session)
+    return UserInDB(**user.to_dict())

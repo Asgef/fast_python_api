@@ -29,3 +29,22 @@ class UserCreate(UserBase):
     city: str
     name: NameCreate
     login: LoginCreate
+
+
+class NameUpdate(NameBase):
+    title: str | None = None
+    first_name: str | None = None
+    last_name: str | None = None
+
+
+class LoginUpdate(LoginBase):
+    username: str | None = None
+    password: str | None = None
+
+
+class UserUpdate(UserBase):
+    email: EmailStr | None = None
+    city: str | None = None
+    dob: date | None = None
+    name: NameUpdate | None = None
+    login: LoginUpdate | None = None
