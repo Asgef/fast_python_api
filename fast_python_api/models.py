@@ -29,11 +29,19 @@ class User(Base):
 
     # Связываем с Name
     name = relationship(
-        "Name", back_populates="user", uselist=False, lazy="joined"
+        "Name",
+        back_populates="user",
+        uselist=False,
+        lazy="joined",
+        cascade="all, delete-orphan"
     )
     # login
     login = relationship(
-        "Login", back_populates="user", uselist=False, lazy="joined"
+        "Login",
+        back_populates="user",
+        uselist=False,
+        lazy="joined",
+        cascade="all, delete-orphan"
     )
 
     def to_dict(self):
@@ -74,7 +82,9 @@ class Name(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     user_id = Column(
-        String, ForeignKey('users.id'), nullable=False, unique=True
+        String, ForeignKey('users.id', ondelete="CASCADE"),
+        nullable=False,
+        unique=True
     )
     title = Column(String, nullable=False)
     first_name = Column(String, nullable=False)
@@ -97,7 +107,7 @@ class Login(Base):
 
     uuid = Column(
         String,
-        ForeignKey('users.id'),
+        ForeignKey('users.id', ondelete="CASCADE"),
         primary_key=True,
         nullable=False,
         unique=True,

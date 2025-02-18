@@ -58,7 +58,7 @@ async def update_user_endpoint(
     user_id: UUID,
     update_data: UserUpdate,
     current_user: Annotated[TokenData, Depends(verify_access_token)],
-    session: AsyncSession = Depends(get_session)
+    session: Annotated[AsyncSession, Depends(get_session)]
 ):
     if current_user.role != 'admin' and current_user.id != user_id:
         raise HTTPException(
@@ -66,3 +66,29 @@ async def update_user_endpoint(
             detail="You do not have permission to update this user"
         )
     return await update_user(user_id, update_data, session)
+
+
+@router.delete("/{user_id}")
+async def delete_user_endpoint(
+        user_id: UUID,
+        current_user: Annotated[TokenData, Depends(verify_access_token)],
+        session: Annotated[AsyncSession, Depends(get_session)]
+) -> UserPublic:
+
+    user = await get_user_by_id(user_id, session)
+
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found"
+        )
+
+    if current_user.role != 'admin' and current_user.id != user_id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="You do not have permission to delete this user"
+        )
+
+    await session.delete(user)
+    await session.commit()
+    return UserPublic(**user.to_dict())
