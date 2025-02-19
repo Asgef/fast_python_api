@@ -1,23 +1,22 @@
 from fast_python_api.chemas.base import UserBase, LoginBase, NameBase
 from pydantic import ConfigDict
 from datetime import datetime
-from uuid import UUID
 
 
 class LoginInDB(LoginBase):
-    uuid: UUID
+    uuid: str
     password: str
 
     model_config = ConfigDict(from_attributes=True)
 
 
 class NameInDB(NameBase):
-    user_id: UUID
+    user_id: str
 
 
 class UserInDB(UserBase):
-    id: UUID
+    id: str
     login: LoginInDB
-    created_at: datetime
+    created_at: datetime | None = None
 
     model_config = ConfigDict(from_attributes=True)
