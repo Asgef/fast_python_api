@@ -18,10 +18,12 @@ router = APIRouter(tags=["External API"])
 
 @router.get('/test')
 async def external_api_test(
-        session: Annotated[ClientSession, Depends(get_http_session)]
+        session: Annotated[ClientSession, Depends(get_http_session)],
+        params: Annotated[RandomUserParams, Depends()]
 ):
+    q_params = params.model_dump(exclude_unset=True, exclude_none=True)
     response = await session.get(
-        settings.test_service_url, params=settings.param_test_api
+        settings.test_service_url, params=q_params
     )
     return await response.json()
 
