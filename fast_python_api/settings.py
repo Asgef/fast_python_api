@@ -19,10 +19,11 @@ class Settings(BaseSettings):
         default_factory=lambda: {"results": "5"}
     )
     DEBUG: bool = Field(default=False)
-    database_url: str = Field(
+    DATABASE_URL: str = Field(
         default="postgresql+asyncpg://postgres:postgres@localhost:5432/test_db",
         json_schema_extra={'env': 'DATABASE_URL'}
     )
+    TEST_DATABASE_URL: str = "sqlite+aiosqlite:///:memory:"
     SECRET_KEY: str = Field(
         json_schema_extra={'env': 'SECRET_KEY'}
     )

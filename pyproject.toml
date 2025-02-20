@@ -33,6 +33,7 @@ respx = "^0.22.0"
 pytest-cov = "^6.0.0"
 ipython = "^8.32.0"
 psycopg2-binary = "^2.9.10"
+aiosqlite = "^0.21.0"
 
 
 [build-system]

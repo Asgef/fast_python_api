@@ -1,0 +1,326 @@
+[
+    {
+        "id": "c647e0c3-d0fb-47fd-bbea-c61b3cd999dd",
+        "dob": "1992-03-15",
+        "city": "New York",
+        "email": "alice@example.com",
+        "created_at": "2025-02-11 12:05:16.070638+00:00",
+        "name": {
+            "title": "Ms",
+            "first_name": "Alice",
+            "last_name": "Smith"
+        },
+        "login": {
+            "uuid": "c647e0c3-d0fb-47fd-bbea-c61b3cd999dd",
+            "role": "user",
+            "username": "alice_smith",
+            "password": "$2b$12$De9b1dQoH.BcbToWT4sb.e8n1WQJU5hu3o8OjwE1HBhsnBizsU6QK"
+        }
+    },
+    {
+        "id": "52cc33c2-7b60-4f8b-bc92-3aa92573c1dd",
+        "dob": "1985-07-22",
+        "city": "Los Angeles",
+        "email": "bob@example.com",
+        "created_at": "2025-02-11 12:05:16.295956+00:00",
+        "name": {
+            "title": "Mr",
+            "first_name": "Bob",
+            "last_name": "Johnson"
+        },
+        "login": {
+            "uuid": "52cc33c2-7b60-4f8b-bc92-3aa92573c1dd",
+            "role": "user",
+            "username": "bob_johnson",
+            "password": "$2b$12$dXOyFv5uEgTFLWUPSew4N.iopaW0Qvph30GOV0b1h0spibjM/NL8S"
+        }
+    },
+    {
+        "id": "ab58f0ff-b917-4b9a-b4c8-709833869e17",
+        "dob": "1998-05-10",
+        "city": "Chicago",
+        "email": "charlie@example.com",
+        "created_at": "2025-02-11 12:05:16.514739+00:00",
+        "name": {
+            "title": "Mr",
+            "first_name": "Charlie",
+            "last_name": "Brown"
+        },
+        "login": {
+            "uuid": "ab58f0ff-b917-4b9a-b4c8-709833869e17",
+            "role": "user",
+            "username": "charlie_brown",
+            "password": "$2b$12$78ELgON3of0LAC8eb0/3eOkuYAf7aK2Xc5EKvhg01jju7SFwoQFaa"
+        }
+    },
+    {
+        "id": "34bdbb9e-f7a7-4b29-9699-b11a3d112cf1",
+        "dob": "1990-11-05",
+        "city": "San Francisco",
+        "email": "david@example.com",
+        "created_at": "2025-02-11 12:05:16.733068+00:00",
+        "name": {
+            "title": "Mr",
+            "first_name": "David",
+            "last_name": "Miller"
+        },
+        "login": {
+            "uuid": "34bdbb9e-f7a7-4b29-9699-b11a3d112cf1",
+            "role": "user",
+            "username": "david_miller",
+            "password": "$2b$12$Egsn4pZsjZOU43TExVjk5O4pNjYYjUxWajIpOocd698hTBM4cifMC"
+        }
+    },
+    {
+        "id": "113ee488-5529-4bd3-99ee-93d067700536",
+        "dob": "1982-04-18",
+        "city": "Houston",
+        "email": "emma@example.com",
+        "created_at": "2025-02-11 12:05:16.952412+00:00",
+        "name": {
+            "title": "Ms",
+            "first_name": "Emma",
+            "last_name": "Wilson"
+        },
+        "login": {
+            "uuid": "113ee488-5529-4bd3-99ee-93d067700536",
+            "role": "user",
+            "username": "emma_wilson",
+            "password": "$2b$12$tNBpERmKyvTIHkyq4RytVOzcogILdsCSpyzYNyhgWi25v3cwC4yGK"
+        }
+    },
+    {
+        "id": "1c0f4b97-de86-47d8-acf8-3ba52acdafbe",
+        "dob": "1995-06-30",
+        "city": "Boston",
+        "email": "frank@example.com",
+        "created_at": "2025-02-11 12:05:17.171051+00:00",
+        "name": {
+            "title": "Mr",
+            "first_name": "Frank",
+            "last_name": "Moore"
+        },
+        "login": {
+            "uuid": "1c0f4b97-de86-47d8-acf8-3ba52acdafbe",
+            "role": "user",
+            "username": "frank_moore",
+            "password": "$2b$12$8C.8isHLSMgEfCLrwqul9e7QMAfoOdpLuwEBfwRHDv/J7R1NhygTC"
+        }
+    },
+    {
+        "id": "c596db09-d85e-44b9-9e9e-b94bd49efb69",
+        "dob": "1989-09-12",
+        "city": "Seattle",
+        "email": "grace@example.com",
+        "created_at": "2025-02-11 12:05:17.389730+00:00",
+        "name": {
+            "title": "Ms",
+            "first_name": "Grace",
+            "last_name": "Taylor"
+        },
+        "login": {
+            "uuid": "c596db09-d85e-44b9-9e9e-b94bd49efb69",
+            "role": "user",
+            "username": "grace_taylor",
+            "password": "$2b$12$aHC4t.w9w4dyqsBR9M2E3eA8m5kPa/1aA5C2haXSih83saRkTcKza"
+        }
+    },
+    {
+        "id": "f6995def-6659-4f28-8f33-b55d03b10829",
+        "dob": "1977-08-21",
+        "city": "Denver",
+        "email": "harry@example.com",
+        "created_at": "2025-02-11 12:05:17.610798+00:00",
+        "name": {
+            "title": "Mr",
+            "first_name": "Harry",
+            "last_name": "Anderson"
+        },
+        "login": {
+            "uuid": "f6995def-6659-4f28-8f33-b55d03b10829",
+            "role": "user",
+            "username": "harry_anderson",
+            "password": "$2b$12$brnPxvCk.0YA2L4zVj7B8.GvG8ewYo8JMsl/3kFR8eAvfRAf9nlB."
+        }
+    },
+    {
+        "id": "78e155b4-dffa-4f3e-bf4f-f71ceb5f5358",
+        "dob": "1993-01-25",
+        "city": "Miami",
+        "email": "isabella@example.com",
+        "created_at": "2025-02-11 12:05:17.829503+00:00",
+        "name": {
+            "title": "Ms",
+            "first_name": "Isabella",
+            "last_name": "Martinez"
+        },
+        "login": {
+            "uuid": "78e155b4-dffa-4f3e-bf4f-f71ceb5f5358",
+            "role": "user",
+            "username": "isabella_martinez",
+            "password": "$2b$12$rDXlasx7qcYtRPWy40BTCuHOBuGb0FYHUUQFkMHkMkn7pvoIfBIlm"
+        }
+    },
+    {
+        "id": "93cbc015-552f-40c7-bdc5-5fb8ddc103b7",
+        "dob": "1984-02-14",
+        "city": "Austin",
+        "email": "jack@example.com",
+        "created_at": "2025-02-11 12:05:18.047479+00:00",
+        "name": {
+            "title": "Mr",
+            "first_name": "Jack",
+            "last_name": "Hernandez"
+        },
+        "login": {
+            "uuid": "93cbc015-552f-40c7-bdc5-5fb8ddc103b7",
+            "role": "user",
+            "username": "jack_hernandez",
+            "password": "$2b$12$eNxaNiDMQ6SBLzRpKcs33uzIEWkdpG2lELDGHN7GGFfVya3x/klmO"
+        }
+    },
+    {
+        "id": "6c3b3609-6fae-4a71-a9fd-94eaabf12c9a",
+        "dob": "1995-05-20",
+        "city": "New York",
+        "email": "testuser@example.com",
+        "created_at": "2025-02-04 21:00:00+00:00",
+        "name": {
+            "title": "Mr",
+            "first_name": "John",
+            "last_name": "Doe"
+        },
+        "login": {
+            "uuid": "6c3b3609-6fae-4a71-a9fd-94eaabf12c9a",
+            "role": "admin",
+            "username": "johndoe",
+            "password": "$2b$12$5xCWw8DuLXfG1RY8sw9Zmuqse7Tdr4.5R3zUtxlF0Ct/6D2qne.5a"
+        }
+    },
+    {
+        "id": "bd4e3920-0740-4bd4-a943-f0278491c013",
+        "dob": "1989-02-13",
+        "city": "Chydovo",
+        "email": "cargo@example.com",
+        "created_at": "2025-02-13 15:16:49.590208+00:00",
+        "name": {
+            "title": "Mr",
+            "first_name": "Cargo",
+            "last_name": "Birgo"
+        },
+        "login": {
+            "uuid": "bd4e3920-0740-4bd4-a943-f0278491c013",
+            "role": "user",
+            "username": "cabid",
+            "password": "$2b$12$S8zf69zRkyRYTG/digrVl.ZDEKjs4DYAHDb/oDVEL2iSf0Uq95L2G"
+        }
+    },
+    {
+        "id": "7a3c5117-a4d1-44e7-9b32-4a9a11fc6a4d",
+        "dob": "1989-02-13",
+        "city": "Chydovo",
+        "email": "cargo2@example.com",
+        "created_at": "2025-02-13 15:23:27.618555+00:00",
+        "name": {
+            "title": "Miss",
+            "first_name": "Margo",
+            "last_name": "Birgo"
+        },
+        "login": {
+            "uuid": "7a3c5117-a4d1-44e7-9b32-4a9a11fc6a4d",
+            "role": "user",
+            "username": "sabid",
+            "password": "$2b$12$ExNCeFrBKyuoCgLLJuwi4OFzGR5zcomWMg7HxJKekaXQxvzU4ubtS"
+        }
+    },
+    {
+        "id": "3812c095-6042-4fbd-8b53-51b2194ea915",
+        "dob": "1989-02-13",
+        "city": "Chydovo",
+        "email": "cargo3@example.com",
+        "created_at": "2025-02-13 15:26:08.477324+00:00",
+        "name": {
+            "title": "Miss",
+            "first_name": "Nargo",
+            "last_name": "Birgo"
+        },
+        "login": {
+            "uuid": "3812c095-6042-4fbd-8b53-51b2194ea915",
+            "role": "user",
+            "username": "tabid",
+            "password": "$2b$12$qAiB.4QtiHxmM6WxNGBzl.lpParXLrD8vzV2S5Q9eLaoDdIeYSPbW"
+        }
+    },
+    {
+        "id": "2396ec7b-8997-4443-959d-904b4bed773e",
+        "dob": "1987-02-17",
+        "city": "string",
+        "email": "userlend@example.com",
+        "created_at": "2025-02-17 12:00:32.554859+00:00",
+        "name": {
+            "title": "Miss",
+            "first_name": "Sister",
+            "last_name": "Stringer"
+        },
+        "login": {
+            "uuid": "2396ec7b-8997-4443-959d-904b4bed773e",
+            "role": "user",
+            "username": "stringfield",
+            "password": "$2b$12$ZKQ8HTF2V/v5NGlSv3w4he86Jl6Y5cA0s90jzzcyvgP3Nc2IhJbX2"
+        }
+    },
+    {
+        "id": "54ad9c66-422f-49f8-a96c-56dd622d4983",
+        "dob": "1987-02-18",
+        "city": "Demuansk",
+        "email": "userlend2@example.com",
+        "created_at": "2025-02-17 12:18:28.296083+00:00",
+        "name": {
+            "title": "Miss",
+            "first_name": "Sister2",
+            "last_name": "Stringer2"
+        },
+        "login": {
+            "uuid": "54ad9c66-422f-49f8-a96c-56dd622d4983",
+            "role": "user",
+            "username": "stringfield2",
+            "password": "$2b$12$B1maXhoDwTf5xbqPPVGea.2YBs2WXAYNxCr/zYihLDjfxGyFnIwp2"
+        }
+    },
+    {
+        "id": "d13c0cd8-fb79-49c6-8682-23585f227c93",
+        "dob": "1958-12-28",
+        "city": "Manchester",
+        "email": "leah.mitchell@example.com",
+        "created_at": "2025-02-19 14:19:57.913696+00:00",
+        "name": {
+            "title": "Ms",
+            "first_name": "Leah",
+            "last_name": "Mitchell"
+        },
+        "login": {
+            "uuid": "d13c0cd8-fb79-49c6-8682-23585f227c93",
+            "role": "user",
+            "username": "organicduck988",
+            "password": "1c195db087a77290b9506f44ad18c1224248d1a574f03fb288c3e3082dbae32e"
+        }
+    },
+    {
+        "id": "2d7632f4-5b4d-4157-ac3c-0f4bc27634b7",
+        "dob": "1980-02-19",
+        "city": "Berlin ",
+        "email": "tillkill.user@example.com",
+        "created_at": "2025-02-19 16:47:36.411764+00:00",
+        "name": {
+            "title": "Mr",
+            "first_name": "Till",
+            "last_name": "Lindenman"
+        },
+        "login": {
+            "uuid": "2d7632f4-5b4d-4157-ac3c-0f4bc27634b7",
+            "role": "user",
+            "username": "tillkill",
+            "password": "$2b$12$CYXGt7MrOT2cCucNxEChJubMsNZrRRhgz.kqC8QTmTyqcE8gIkf8m"
+        }
+    }
+]

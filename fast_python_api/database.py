@@ -7,7 +7,7 @@ from sqlalchemy import create_engine
 
 
 # асинхронный движок
-engine = create_async_engine(settings.database_url, echo=True)
+engine = create_async_engine(settings.DATABASE_URL, echo=True)
 
 # Фабрика сессий
 async_session = async_sessionmaker(
@@ -24,7 +24,7 @@ async def get_session() -> AsyncSession:
 
 # Синхронный движок (для работы в shell)
 sync_engine = create_engine(
-    settings.database_url.replace("postgresql+asyncpg", "postgresql"),
+    settings.DATABASE_URL.replace("postgresql+asyncpg", "postgresql"),
     echo=True
 )
 
