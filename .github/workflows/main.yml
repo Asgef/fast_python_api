@@ -12,20 +12,20 @@ jobs:
         # we want to test our package on several versions of Python
         python-version: [3.13]
 
-    services:
-      postgres:
-        image: postgres:15
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: test_db
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd "pg_isready -U postgres"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+#    services:
+#      postgres:
+#        image: postgres:15
+#        env:
+#          POSTGRES_USER: postgres
+#          POSTGRES_PASSWORD: postgres
+#          POSTGRES_DB: test_db
+#        ports:
+#          - 5432:5432
+#        options: >-
+#          --health-cmd "pg_isready -U postgres"
+#          --health-interval 10s
+#          --health-timeout 5s
+#          --health-retries 5
 
     steps:
       - uses: actions/checkout@v4
@@ -41,19 +41,20 @@ jobs:
       - name: Run lint
         run: make lint
 
-      - name: Run database migrations
-        env:
-          DATABASE_URL: postgresql+asyncpg://postgres:postgres@localhost:5432/test_db
-        run: |
-          poetry run alembic revision --autogenerate -m "CI Auto Migration" || true
-          poetry run alembic upgrade head || true
+#      - name: Run database migrations
+#        env:
+#          DATABASE_URL: postgresql+asyncpg://postgres:postgres@localhost:5432/test_db
+#        run: |
+#          poetry run alembic revision --autogenerate -m "CI Auto Migration" || true
+#          poetry run alembic upgrade head || true
 
       - name: Run test-coverage
         env:
           TEST_SERVICE_URL: ${{ env.TEST_SERVICE_URL }}
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          DATABASE_URL: postgresql+asyncpg://postgres:postgres@localhost:5432/test_db
-          GITHUB_ACTIONS: true
+          TEST_DATABASE_URL: "sqlite+aiosqlite:///:memory:"
+#          DATABASE_URL: postgresql+asyncpg://postgres:postgres@localhost:5432/test_db
+#          GITHUB_ACTIONS: true
         run: make test-coverage
 
       - name: Publish code coverage to Code Climate

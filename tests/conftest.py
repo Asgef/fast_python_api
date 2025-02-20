@@ -59,3 +59,4 @@ def test_client(test_session):
 
     app.dependency_overrides[get_session] = override_get_session
     return TestClient(app)
+
