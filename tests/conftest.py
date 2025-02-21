@@ -2,6 +2,7 @@ import os
 import json
 import pytest
 import asyncio
+import pytest_asyncio
 from datetime import date, datetime
 from fastapi.testclient import TestClient
 from fast_python_api.main import app
@@ -67,7 +68,7 @@ def setup_test_db():
     asyncio.run(drop_db())
 
 
-@pytest.fixture(scope="session")
+@pytest_asyncio.fixture
 async def test_session():
     async with TestSessionLocal() as session:
         yield session
