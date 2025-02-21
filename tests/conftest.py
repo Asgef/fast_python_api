@@ -2,23 +2,20 @@ import os
 import json
 import pytest
 import asyncio
-from pathlib import Path
-from fast_python_api.main import app
+from datetime import date, datetime
 from fastapi.testclient import TestClient
+from fast_python_api.main import app
 from fast_python_api.settings import settings
-from fast_python_api.models import Base, User
+from fast_python_api.models import Base, User, Name, Login
 from fast_python_api.database import get_session
 from sqlalchemy.ext.asyncio import (
     AsyncSession, create_async_engine, async_sessionmaker
 )
 
+# Создаём движок для тестовой базы (SQLite in-memory)
+test_engine = create_async_engine(settings.TEST_DATABASE_URL, echo=True)
 
-test_engine = create_async_engine(settings.TEST_DATABASE_URL, echo=False)
-
-
-current_dir = os.getcwd()
-fixtures = os.path.join(current_dir, "fixtures/users_dump.json")
-
+# Фабрика сессий для тестовой базы
 TestSessionLocal = async_sessionmaker(
     test_engine,
     class_=AsyncSession,
@@ -26,37 +23,61 @@ TestSessionLocal = async_sessionmaker(
 )
 
 
-@pytest.fixture()
+FIXTURES_PATH = os.path.join(
+    os.getcwd(), "tests", "fixtures", "users_dump.json"
+)
+
+@pytest.fixture(scope="session", autouse=True)
+def setup_test_db():
+    async def init_db():
+        async with test_engine.begin() as conn:
+            await conn.run_sync(Base.metadata.create_all)
+
+    async def load_fixtures():
+        async with TestSessionLocal() as session:
+            with open(FIXTURES_PATH, "r") as f:
+                users_data = json.load(f)
+            users = []
+            for user_data in users_data:
+                if "dob" in user_data:
+                    user_data["dob"] = date.fromisoformat(user_data["dob"])
+                if "created_at" in user_data:
+                    user_data["created_at"] = datetime.fromisoformat(
+                        user_data["created_at"]
+                    )
+
+                name_data = user_data.pop("name", None)
+                login_data = user_data.pop("login", None)
+                user = User(**user_data)
+                if name_data:
+                    user.name = Name(**name_data)
+                if login_data:
+                    user.login = Login(**login_data)
+                users.append(user)
+            session.add_all(users)
+            await session.commit()
+
+    async def drop_db():
+        async with test_engine.begin() as conn:
+            await conn.run_sync(Base.metadata.drop_all)
+
+    asyncio.run(init_db())
+    asyncio.run(load_fixtures())
+    yield
+    asyncio.run(drop_db())
+
+
+@pytest.fixture(scope="session")
 async def test_session():
     async with TestSessionLocal() as session:
         yield session
 
 
-@pytest.fixture(scope="session", autouse=True)
-async def setup_test_db():
-    async with test_engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
-
-    with open(fixtures, "r") as f:
-        users_data = json.load(f)
-
-    async with TestSessionLocal as session:
-        for user_data in users_data:
-            user = User(**user_data)
-            session.add(user)
-            await session.commit()
-
-    yield # Выполнение тестов
-
-    async with test_engine.begin() as conn:
-        await conn.run_sync(Base.metadata.drop_all)
-
-
 @pytest.fixture()
-def test_client(test_session):
-    def override_get_session():
-        return test_session
+def test_client():
+    async def override_get_session():
+        async with TestSessionLocal() as session:
+            yield session
 
     app.dependency_overrides[get_session] = override_get_session
     return TestClient(app)
-
