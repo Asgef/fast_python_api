@@ -13,10 +13,10 @@ from sqlalchemy.ext.asyncio import (
     AsyncSession, create_async_engine, async_sessionmaker
 )
 
-# Создаём движок для тестовой базы (SQLite in-memory)
+
 test_engine = create_async_engine(settings.TEST_DATABASE_URL, echo=True)
 
-# Фабрика сессий для тестовой базы
+
 TestSessionLocal = async_sessionmaker(
     test_engine,
     class_=AsyncSession,

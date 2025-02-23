@@ -17,7 +17,7 @@ router = APIRouter(prefix="/users", tags=["Users"])
 async def get_users_list(
         session: Annotated[AsyncSession, Depends(get_session)],
         skip: Annotated[int, Query()] = 0,
-        limit: Annotated[int, Query()] = 100
+        limit: Annotated[int, Query()] = 100  # TODO: Проработать лимиты
 ) -> list[UserPublic]:
     items = await get_users(session)
     return items[skip: skip + limit]
@@ -29,12 +29,12 @@ async def get_user(
         session: Annotated[AsyncSession, Depends(get_session)]
 ) -> UserPublic:
     user_db = await get_user_by_id(user_id, session)
-    user = UserPublic(**user_db.to_dict())
-    if not user:
+    if not user_db:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="User not found"
         )
+    user = UserPublic(**user_db.to_dict())
     return user
 
 
