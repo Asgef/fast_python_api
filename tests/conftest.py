@@ -3,6 +3,8 @@ import json
 import pytest
 import asyncio
 import pytest_asyncio
+from httpx import AsyncClient, ASGITransport
+from sqlalchemy import event
 from datetime import date, datetime
 from fastapi.testclient import TestClient
 from fast_python_api.main import app
@@ -70,15 +72,25 @@ def setup_test_db():
 
 @pytest_asyncio.fixture
 async def test_session():
-    async with TestSessionLocal() as session:
-        yield session
+    connection = await test_engine.connect()
+    transaction = await connection.begin()
+    session = AsyncSession(bind=connection, expire_on_commit=False)
+    yield session
+    await session.close()
+    await transaction.rollback()
+    await connection.close()
 
 
-@pytest.fixture()
-def test_client():
+@pytest_asyncio.fixture()
+async def test_client(test_session):
     async def override_get_session():
-        async with TestSessionLocal() as session:
-            yield session
+        yield test_session
 
     app.dependency_overrides[get_session] = override_get_session
-    return TestClient(app)
+    transport = ASGITransport(app=app)
+    async with AsyncClient(
+            transport=transport,
+            base_url="http://test",
+            follow_redirects=True
+    ) as client:
+        yield client
