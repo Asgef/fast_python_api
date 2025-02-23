@@ -25,8 +25,8 @@ async def test_update_by_admin(
         "city": "Chicago"
     }
 
-    response = test_client.put(
-        f"/users/{user_uuid}", json=user_data,
+    response = await test_client.put(
+        f"/users/{user_uuid}/", json=user_data,
         headers=headers_admin
     )
     assert response.status_code == 200
@@ -50,8 +50,8 @@ async def test_user_update_this_data(
         "city": "Chicago"
     }
 
-    response = test_client.put(
-        f"/users/{user_uuid}", json=user_data,
+    response = await test_client.put(
+        f"/users/{user_uuid}/", json=user_data,
         headers=headers_admin
     )
     assert response.status_code == 200
@@ -76,8 +76,8 @@ async def test_update_other_user_data(
         },
         "city": "Chicago"
     }
-    response = test_client.put(
-        f"/users/{user_uuid}", json=user_data,
+    response = await test_client.put(
+        f"/users/{user_uuid}/", json=user_data,
         headers=headers_user
     )
     assert response.status_code == 403
@@ -91,8 +91,8 @@ async def test_update_user_not_found(
     user_data = {
         "city": "Chicago"
     }
-    response = test_client.put(
-        f"/users/{user_uuid}", json=user_data,
+    response = await test_client.put(
+        f"/users/{user_uuid}/", json=user_data,
         headers=headers_admin
     )
     assert response.status_code == 404
@@ -106,8 +106,8 @@ async def test_update_user_invalid_uuid(
     user_data = {
         "city": "Chicago"
     }
-    response = test_client.put(
-        f"/users/{user_uuid}", json=user_data,
+    response = await test_client.put(
+        f"/users/{user_uuid}/", json=user_data,
         headers=headers_admin
     )
     assert response.status_code == 422
@@ -121,8 +121,8 @@ async def test_update_user_invalid_email(
     user_data = {
         "email": "invalid_email"
     }
-    response = test_client.put(
-        f"/users/{user_uuid}", json=user_data,
+    response = await test_client.put(
+        f"/users/{user_uuid}/", json=user_data,
         headers=headers_admin
     )
     assert response.status_code == 422
@@ -136,8 +136,8 @@ async def test_update_user_invalid_dob(
     user_data = {
         "dob": "invalid_dob"
     }
-    response = test_client.put(
-        f"/users/{user_uuid}", json=user_data,
+    response = await test_client.put(
+        f"/users/{user_uuid}/", json=user_data,
         headers=headers_admin
     )
     assert response.status_code == 422
@@ -151,7 +151,7 @@ async def test_update_without_access_token(
     user_data = {
         "city": "Chicago"
     }
-    response = test_client.put(
-        f"/users/{user_uuid}", json=user_data
+    response = await test_client.put(
+        f"/users/{user_uuid}/", json=user_data
     )
     assert response.status_code == 401

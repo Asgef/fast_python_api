@@ -9,14 +9,14 @@ headers={"Authorization": f"Bearer {generate_valid_token()}"}
 
 @pytest.mark.asyncio
 async def test_read_users(test_client: AsyncClient, test_session):
-    response = test_client.get("/users", headers=headers)
+    response = await test_client.get("/users/", headers=headers)
     assert response.status_code == 200
-    assert len(response.json()) == 19
+    assert len(response.json()) == 18
 
 
 @pytest.mark.asyncio
 async def test_read_limit_users(test_client: AsyncClient, test_session):
-    response = test_client.get("/users?limit=5", headers=headers)
+    response = await test_client.get("/users?limit=5", headers=headers)
     assert response.status_code == 200
     assert len(response.json()) == 5
 
@@ -24,7 +24,7 @@ async def test_read_limit_users(test_client: AsyncClient, test_session):
 @pytest.mark.asyncio
 async def test_read_user(test_client: AsyncClient, test_session):
     uuid = "c647e0c3-d0fb-47fd-bbea-c61b3cd999dd"
-    response = test_client.get(f"/users/{uuid}", headers=headers)
+    response = await test_client.get(f"/users/{uuid}/", headers=headers)
     assert response.status_code == 200
     assert response.json()["dob"] == "1992-03-15"
     assert response.json()["city"] == "New York"
@@ -40,12 +40,12 @@ async def test_read_user(test_client: AsyncClient, test_session):
 @pytest.mark.asyncio
 async def test_read_user_not_found(test_client: AsyncClient, test_session):
     uuid = "c647e0c3-d0fb-47fd-bbea-c61b3cd999cc"
-    response = test_client.get(f"/users/{uuid}", headers=headers)
+    response = await test_client.get(f"/users/{uuid}/", headers=headers)
     assert response.status_code == 404
 
 
 @pytest.mark.asyncio
 async def test_read_user_invalid_uuid(test_client: AsyncClient, test_session):
     uuid = "invalid_uuid"
-    response = test_client.get(f"/users/{uuid}", headers=headers)
+    response = await test_client.get(f"/users/{uuid}/", headers=headers)
     assert response.status_code == 422

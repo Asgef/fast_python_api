@@ -24,8 +24,8 @@ async def test_create_user_success(test_client: AsyncClient, test_session):
         "email": "johndoi@example.com"
     }
 
-    response = test_client.post(
-        "/users/create", json=user_data, headers=headers
+    response = await test_client.post(
+        "/users/create/", json=user_data, headers=headers
     )
     assert response.status_code == 200
     data = response.json()
@@ -51,7 +51,7 @@ async def test_create_user_duplicate_email(test_client: AsyncClient, test_sessio
         "email": "testuser@example.com"
     }
 
-    response = test_client.post("/users/create", json=user_data, headers=headers)
+    response = await test_client.post("/users/create/", json=user_data, headers=headers)
     assert response.status_code == 400
     assert response.json()["detail"] == "User with this email already exists"
 
@@ -74,8 +74,8 @@ async def test_create_user_duplicate_username(test_client: AsyncClient, test_ses
         "email": "alice@example.com"
     }
 
-    response = test_client.post(
-        "/users/create", json=user_data, headers=headers
+    response = await test_client.post(
+        "/users/create/", json=user_data, headers=headers
     )
     assert response.status_code == 400
     assert response.json()["detail"] == "User with this email already exists"
@@ -99,8 +99,8 @@ async def test_create_user_invalid_email(test_client: AsyncClient):
         "email": "invalid-email"
     }
 
-    response = test_client.post(
-        "/users/create", json=user_data, headers=headers
+    response = await test_client.post(
+        "/users/create/", json=user_data, headers=headers
     )
     assert response.status_code == 422
 
@@ -113,7 +113,7 @@ async def test_create_user_missing_fields(test_client: AsyncClient):
         "dob": "2000-01-01"
     }
 
-    response = test_client.post(
-        "/users/create", json=user_data, headers=headers
+    response = await test_client.post(
+        "/users/create/", json=user_data, headers=headers
     )
     assert response.status_code == 422
