@@ -4,9 +4,7 @@ import pytest
 import asyncio
 import pytest_asyncio
 from httpx import AsyncClient, ASGITransport
-from sqlalchemy import event
 from datetime import date, datetime
-from fastapi.testclient import TestClient
 from fast_python_api.main import app
 from fast_python_api.settings import settings
 from fast_python_api.models import Base, User, Name, Login

@@ -6,8 +6,11 @@ from tests.test_token import generate_valid_token
 headers_admin = {"Authorization": f"Bearer {generate_valid_token()}"}
 
 headers_user = {"Authorization": f"Bearer {generate_valid_token(
-    username='alice_smith', role='user'
+    username='alice_smith',
+    role='user',
+    user_id='c647e0c3-d0fb-47fd-bbea-c61b3cd999dd'
 )}"}
+
 
 
 @pytest.mark.asyncio
@@ -52,7 +55,7 @@ async def test_user_update_this_data(
 
     response = await test_client.put(
         f"/users/{user_uuid}/", json=user_data,
-        headers=headers_admin
+        headers=headers_user
     )
     assert response.status_code == 200
     assert response.json()['city'] == user_data['city']
@@ -155,3 +158,53 @@ async def test_update_without_access_token(
         f"/users/{user_uuid}/", json=user_data
     )
     assert response.status_code == 401
+
+
+# @pytest.mark.asyncio
+# async def test_update_with_same_data(
+#         test_client: AsyncClient, test_session
+# ):
+#     user_uuid = 'c647e0c3-d0fb-47fd-bbea-c61b3cd999dd'
+#     user_data = {
+#         "email": "alice@example.com",
+#         "login": {"username": "alice_smith"}
+#     }
+#
+#     response = await test_client.put(
+#         f"/users/{user_uuid}/", json=user_data,
+#         headers=headers_user
+#     )
+#     assert response.status_code == 200
+#     assert response.json()['email'] == user_data['email']
+#
+
+# @pytest.mark.asyncio
+# async def test_update_protected_fields(
+#         test_client: AsyncClient, test_session
+# ):
+#     user_uuid = 'c647e0c3-d0fb-47fd-bbea-c61b3cd999dd'
+#     user_data = {
+#         "id": "52cc33c2-7b60-4f8b-bc92-3aa92573c1dd",
+#         "created_at": "2025-01-01T12:00:00"
+#     }
+#
+#     response = await test_client.put(
+#         f"/users/{user_uuid}/", json=user_data,
+#         headers=headers_admin
+#     )
+#     assert response.status_code == 422
+
+
+# @pytest.mark.asyncio
+# async def test_update_user_role_by_admin(
+#         test_client: AsyncClient, test_session
+# ):
+#     user_uuid = 'c647e0c3-d0fb-47fd-bbea-c61b3cd999dd'
+#     user_data = {"login": {"role": "admin"}}
+#
+#     response = await test_client.put(
+#         f"/users/{user_uuid}/", json=user_data,
+#         headers=headers_admin
+#     )
+#     assert response.status_code == 200
+#     assert response.json()['login']['role'] == "admin"

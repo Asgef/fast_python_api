@@ -7,11 +7,14 @@ import pytest
 
 @pytest.mark.asyncio
 def generate_valid_token(
-        username: str = "johndoe", role: str = "admin"
+        username: str = "johndoe",
+        role: str = "admin",
+        user_id: str = "6c3b3609-6fae-4a71-a9fd-94eaabf12c9a"
 ) -> str:
     payload = {
         "sub": username,
         "role": role,
+        "id": user_id,
         "exp": datetime.now(timezone.utc) + timedelta(minutes=30)
     }
     token = jwt.encode(
