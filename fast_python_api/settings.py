@@ -1,14 +1,22 @@
-from typing import Any, Dict
-import dotenv
-from pydantic_settings import BaseSettings
-from pydantic import Field
 import os
+import dotenv
+from pydantic import Field
+from typing import Any, Dict
+from pydantic_settings import BaseSettings
+
+
 
 
 dotenv.load_dotenv()
 
 
 class Settings(BaseSettings):
+    """
+    Settings for FastAPI application.
+
+    All settings are loaded from environment variables.
+    Settings are grouped into categories. Each category has its own class.
+    """
     env_file: str = os.path.join(os.path.dirname(__file__), '.env')
     env_file_encoding: str = 'utf-8'
     test_service_url: str = "https://randomuser.me/api"

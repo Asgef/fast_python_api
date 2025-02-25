@@ -6,7 +6,7 @@ from httpx import AsyncClient
 from aioresponses import aioresponses
 from tests.test_token import generate_valid_token
 from fast_python_api.settings import settings
-from fast_python_api.loging_config import logger
+from fast_python_api.logging_config import logger
 
 
 headers_admin = {"Authorization": f"Bearer {generate_valid_token()}"}

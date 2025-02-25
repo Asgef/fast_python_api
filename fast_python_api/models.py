@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, DateTime, Date, ForeignKey
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import relationship
 from datetime import datetime, timezone
+from typing import Any
 import uuid
 
 
@@ -9,6 +10,10 @@ Base = declarative_base()
 
 
 class User(Base):
+    """
+    Represents a user in the system.
+    Contains information about a user such as date of birth, city, email and etc.
+    """
     __tablename__ = 'users'
 
     id = Column(
@@ -44,7 +49,7 @@ class User(Base):
         cascade="all, delete-orphan"
     )
 
-    def to_dict(self):
+    def to_dict(self) -> dict[str, Any]:
         return {
             "id": self.id,
             "dob": self.dob,
@@ -78,6 +83,11 @@ class User(Base):
 
 
 class Name(Base):
+    """
+    Represents a name in the system.
+    Contains information about a user such as title, first name,
+    last name and etc.
+    """
     __tablename__ = 'names'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -103,6 +113,10 @@ class Name(Base):
 
 
 class Login(Base):
+    """
+    Represents a login in the system.
+    Contains information about a user such as username, password and etc.
+    """
     __tablename__ = 'logins'
 
     uuid = Column(
@@ -120,4 +134,4 @@ class Login(Base):
     user = relationship("User", back_populates="login")
 
     def __repr__(self):
-        return f"Login(uuid={self.uuid}"
+        return f"Login(uuid={self.uuid})"
