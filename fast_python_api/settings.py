@@ -11,10 +11,7 @@ dotenv.load_dotenv()
 class Settings(BaseSettings):
     env_file: str = os.path.join(os.path.dirname(__file__), '.env')
     env_file_encoding: str = 'utf-8'
-    test_service_url: str = Field(
-        default="https://randomuser.me/api",
-        json_schema_extra={'env': 'TEST_SERVICE_URL'}
-    )
+    test_service_url: str = "https://randomuser.me/api"
     param_test_api: Dict[str, Any] = Field(
         default_factory=lambda: {"results": "5"}
     )

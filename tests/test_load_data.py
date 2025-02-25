@@ -6,6 +6,7 @@ from httpx import AsyncClient
 from aioresponses import aioresponses
 from tests.test_token import generate_valid_token
 from fast_python_api.settings import settings
+from fast_python_api.loging_config import logger
 
 
 headers_admin = {"Authorization": f"Bearer {generate_valid_token()}"}
@@ -27,6 +28,7 @@ async def test_import_users_success(test_client: AsyncClient, test_session):
         mocked_payload = json.load(f)
 
     expected_url = f"{settings.test_service_url}?results=5"
+    logger.info(f"expected_url >>>>>>>>>>>>>>>>>>>>>>>>>>>>> {expected_url}")
 
     with aioresponses() as mocked:
         mocked.get(
@@ -66,10 +68,12 @@ async def test_import_users_invalid_service_response(
         test_client: AsyncClient, test_session
 ):
     invalid_payload = {"unexpected": "data"}
+    expected_url = f"{settings.test_service_url}?results=5"
 
     with aioresponses() as mocked:
-        mocked.get(re.compile(
-            r'https://randomuser\.me/api.*'), payload=invalid_payload
+        mocked.get(
+            expected_url,
+            payload=invalid_payload
         )
         response = await test_client.post(
             "/import", headers=headers_admin
@@ -82,8 +86,13 @@ async def test_import_users_invalid_service_response(
 async def test_import_users_server_error(
         test_client: AsyncClient, test_session
 ):
+    expected_url = f"{settings.test_service_url}?results=5"
+
     with aioresponses() as mocked:
-        mocked.get(re.compile(r'https://randomuser\.me/api.*'), status=500)
+        mocked.get(
+            expected_url,
+            status=500
+        )
         response = await test_client.post("/import", headers=headers_admin)
 
     assert response.status_code == 500
