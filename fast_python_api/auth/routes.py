@@ -1,23 +1,44 @@
-from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordRequestForm
 from typing import Annotated
 from datetime import timedelta
-from fast_python_api.auth.user_auth import authenticate_user
-from fast_python_api.auth.token import create_access_token
-from fast_python_api.chemas.token import Token
 from fast_python_api.settings import settings
+from fast_python_api.chemas.token import Token
 from sqlalchemy.ext.asyncio import AsyncSession
 from fast_python_api.database import get_session
+from fastapi.security import OAuth2PasswordRequestForm
+from fast_python_api.auth.token import create_access_token
+from fastapi import APIRouter, Depends, HTTPException, status
+from fast_python_api.auth.user_auth import authenticate_user
 
 
 router = APIRouter(tags=["Auth"])
 
 
-@router.post("/token")
+@router.post(
+    "/token",
+    summary="Get access token",
+    description="Get access token. "
+                "The returned token should be used in the Authorization "
+                "header in the Bearer format.",
+    response_model=Token
+)
 async def login_for_access_token(
         form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
         session: Annotated[AsyncSession, Depends(get_session)]
 ) -> Token:
+    """
+    Get access token.
+
+    This endpoint is used to obtain an access token. It takes in a username
+    and password, and returns an access token if the credentials are valid.
+
+    Args:
+        form_data (OAuth2PasswordRequestForm): The username and password to
+            authenticate with.
+        session (AsyncSession): The database session to use.
+
+    Returns:
+        Token: The access token and its type.
+    """
     user = await authenticate_user(
         form_data.username, form_data.password, session
     )

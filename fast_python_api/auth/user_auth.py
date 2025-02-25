@@ -16,6 +16,17 @@ from fast_python_api.chemas.user_crud import UserPublic
 async def authenticate_user(
         username: str, password: str, session: AsyncSession
 ) -> UserPublic | None:
+    """
+    Authenticate user by username and password.
+
+    Args:
+        username: The username to authenticate.
+        password: The password to authenticate.
+        session: The database session.
+
+    Returns:
+        The authenticated user if successful, otherwise None.
+    """
     user = await get_user_by_username(username, session)
 
     if not user or not verify_password(password, user.login.password):
@@ -27,6 +38,18 @@ async def authenticate_user(
 async def verify_access_token(
         token: Annotated[str, Depends(oauth2_scheme)]
 ) -> TokenData:
+    """
+    Verify the provided access token and extract user information.
+
+    Args:
+        token: The JWT access token to verify.
+
+    Returns:
+        TokenData containing the user's username, role, and id.
+
+    Raises:
+        HTTPException: If the token is invalid or the credentials cannot be validated.
+    """
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -49,6 +72,16 @@ async def verify_access_token(
 async def get_current_user(
         token: Annotated[TokenData, Depends(verify_access_token)],
         session: Annotated[AsyncSession, Depends(get_session)]
-) -> UserInDB:
+) -> UserInDB | None:  # TODO: Разобраться, что делать с None
+    """
+    Get the current user by the provided access token.
+
+    Args:
+    - token: The access token to get the user from.
+    - session: The database session to use.
+
+    Returns:
+    - The current user if found, otherwise None.
+    """
     user = await get_user_by_username(username=token.username, session=session)
     return UserInDB(**user.to_dict())
