@@ -10,7 +10,9 @@ client = TestClient(app)
 def test_homepage():
     response = client.get('/')
     assert response.status_code == 200
-    assert response.json() == {'Hello': 'World'}
+    assert response.json()['version'] == settings.APP_VERSION
+    assert response.json()['documentation'] == '/docs'
+    assert response.json()['message'] == 'Welcome to My FastAPI Service!'
 
 
 def test_external_api_test():
