@@ -8,6 +8,7 @@ from fast_python_api.core.user_db import (
     email_exists, username_exists, get_user_by_id
 )
 import uuid
+from uuid import UUID
 from sqlalchemy.ext.asyncio import AsyncSession
 
 
@@ -15,6 +16,16 @@ async def create_user(
         user_data: UserCreate,
         session: AsyncSession
 ) -> UserPublic:
+    """
+    Create a new user.
+
+    Args:
+        user_data: The data to create the user with.
+        session: The database session to use.
+
+    Returns:
+        The created user.
+    """
     if await email_exists(user_data.email, session):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -51,11 +62,26 @@ async def create_user(
     return UserPublic(**user.to_dict())
 
 
-async def update_user(  # noqa C901
-        user_id: uuid.UUID,
+async def update_user(
+        user_id: UUID,
         update_data: UserUpdate,
         session: AsyncSession
 ) -> UserPublic:
+    """Update a user
+
+    Args:
+    - user_id (UUID): The ID of the user to update
+    - update_data (UserUpdate): The data to update the user with
+    - session (AsyncSession): The database session to use
+
+    Raises:
+    - HTTPException: 404 if the user is not found
+    - HTTPException: 400 if the user has no login data and login data is
+    tried to be updated
+
+    Returns:
+        The updated user.
+    """
     user = await get_user_by_id(user_id, session)
 
     if not user:

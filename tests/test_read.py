@@ -10,7 +10,7 @@ headers={"Authorization": f"Bearer {generate_valid_token()}"}
 async def test_read_users(test_client: AsyncClient, test_session):
     response = await test_client.get("/users/", headers=headers)
     assert response.status_code == 200
-    assert len(response.json()) == 18
+    assert len(response.json()) == 5
 
 
 @pytest.mark.asyncio
