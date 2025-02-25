@@ -13,6 +13,16 @@ from datetime import datetime
 
 
 async def get_formated_users(data: list[dict]) -> list[UserInDB]:
+    """
+    Converts a list of dicts from `randomuser.me` to `UserInDB` objects.
+
+    Args:
+        data (list[dict]): A list of dicts from `randomuser.me`.
+
+    Returns:
+        list[UserInDB]: A list of `UserInDB` objects.
+    """
+
     result = []
     for user in data:
         dob_str = user['dob']['date']
@@ -39,12 +49,32 @@ async def get_formated_users(data: list[dict]) -> list[UserInDB]:
             login=login_data
         )
         result.append(user_data)
-    return result
+    return result  # TODO: Добавить проверку наличия ключей
 
 
 async def create_user_bulk(
         users: list[UserInDB], session: AsyncSession
 ) -> int:
+    """
+    Creates multiple users in the database at once.
+
+    Asynchronous function that creates multiple users in the database at once.
+    Takes a list of UserInDB objects and a database session,
+    then adds all users to the database and returns the number of
+    successfully added users.
+
+    Args:
+        users (list[UserInDB]): List of UserInDB objects to create in
+        the database.
+        session (AsyncSession): Database session to perform operations.
+
+    Returns:
+        int: Number of successfully added users.
+
+    Raises:
+        HTTPException: If an integrity error or other database error
+        occurs during addition.
+    """
     users_data = []
     logins_data = []
     names_data = []
@@ -81,6 +111,29 @@ async def fetch_random_user(
         session: Annotated[ClientSession, Depends(get_http_session)],
         params: RandomUserParams
 ) -> list[UserInDB]:
+    """
+    Gets a list of users from the external API and formats them
+    into a list of UserInDB objects.
+
+    Asynchronous function that gets a list of users from the external API
+    and formats
+    them into a list of UserInDB objects.
+    Takes a ClientSession and a RandomUserParams object, then sends a GET
+    request to the external API with the parameters specified in
+    RandomUserParams, waits for the response and formats the result
+    into a list of UserInDB objects.
+
+    Args:
+        session (ClientSession): ClientSession to perform the GET request.
+        params (RandomUserParams): Parameters for the GET request.
+
+    Returns:
+        list[UserInDB]: List of UserInDB objects.
+
+    Raises:
+        HTTPException: If the external API returns an error status code,
+            or if the response format is invalid.
+    """
     q_params = params.model_dump(exclude_unset=True, exclude_none=True)
     async with session.get(
             settings.test_service_url, params=q_params

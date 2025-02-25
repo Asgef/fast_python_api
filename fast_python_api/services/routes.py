@@ -16,19 +16,30 @@ from fast_python_api.services.utils import (
 router = APIRouter(tags=["External API"])
 
 
-@router.get('/test')
+@router.get(
+    '/test',
+    summary="Test external API",
+    description="Test external API, fetches random users."
+)
 async def external_api_test(
         session: Annotated[ClientSession, Depends(get_http_session)],
         params: Annotated[RandomUserParams, Depends()]
-):
+) -> dict:
+    """
+    Test external API, fetches random users.
+    """
     q_params = params.model_dump(exclude_unset=True, exclude_none=True)
     response = await session.get(
         settings.test_service_url, params=q_params
-    )
+    )  # TODO: Следует предусмотреть случай когда сервис не доступен
     return await response.json()
 
 
-@router.post('/import')
+@router.post(
+    '/import',
+    summary="Import users from external API",
+    description="Import users from external API, only accessible by admins."
+)
 async def import_users(
         params: Annotated[RandomUserParams, Depends()],
         current_user: Annotated[TokenData, Depends(verify_access_token)],
@@ -36,6 +47,9 @@ async def import_users(
         http_session: Annotated[ClientSession, Depends(get_http_session)]
 
 ) -> dict:
+    """
+    Import users from external API, only accessible by admins.
+    """
     if current_user.role != 'admin':
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
