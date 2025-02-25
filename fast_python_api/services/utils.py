@@ -85,7 +85,21 @@ async def fetch_random_user(
     async with session.get(
             settings.test_service_url, params=q_params
     ) as response:
+
+        if response.status == 500:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="External API error"
+            )
+
         data = await response.json()
+
+        if "results" not in data or not isinstance(data["results"], list):
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail="Invalid response format from external API"
+            )
+
         users_data = data['results']
         formated_users = await get_formated_users(users_data)
         return formated_users

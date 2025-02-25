@@ -35,7 +35,7 @@ async def import_users(
         db_session: Annotated[AsyncSession, Depends(get_db_session)],
         http_session: Annotated[ClientSession, Depends(get_http_session)]
 
-) -> str:
+) -> dict:
     if current_user.role != 'admin':
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
@@ -43,4 +43,4 @@ async def import_users(
         )
     users_data = await fetch_random_user(http_session, params)
     count_added_users = await create_user_bulk(users_data, db_session)
-    return f"Successfully imported {count_added_users} users."
+    return {"success": True, "imported_users": count_added_users}

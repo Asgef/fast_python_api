@@ -3,12 +3,12 @@ import json
 import pytest
 import asyncio
 import pytest_asyncio
-from httpx import AsyncClient, ASGITransport
 from datetime import date, datetime
 from fast_python_api.main import app
+from httpx import AsyncClient, ASGITransport
 from fast_python_api.settings import settings
-from fast_python_api.models import Base, User, Name, Login
 from fast_python_api.database import get_session
+from fast_python_api.models import Base, User, Name, Login
 from sqlalchemy.ext.asyncio import (
     AsyncSession, create_async_engine, async_sessionmaker
 )
@@ -27,6 +27,7 @@ TestSessionLocal = async_sessionmaker(
 FIXTURES_PATH = os.path.join(
     os.getcwd(), "tests", "fixtures", "users_dump.json"
 )
+
 
 @pytest.fixture(scope="session", autouse=True)
 def setup_test_db():
