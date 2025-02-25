@@ -48,7 +48,8 @@ async def verify_access_token(
         TokenData containing the user's username, role, and id.
 
     Raises:
-        HTTPException: If the token is invalid or the credentials cannot be validated.
+        HTTPException: If the token is invalid or the credentials
+        cannot be validated.
     """
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,

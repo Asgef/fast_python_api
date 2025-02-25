@@ -5,8 +5,6 @@ from typing import Any, Dict
 from pydantic_settings import BaseSettings
 
 
-
-
 dotenv.load_dotenv()
 
 

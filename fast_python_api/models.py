@@ -12,7 +12,8 @@ Base = declarative_base()
 class User(Base):
     """
     Represents a user in the system.
-    Contains information about a user such as date of birth, city, email and etc.
+    Contains information about a user such as date of birth, city,
+    email and etc.
     """
     __tablename__ = 'users'
 

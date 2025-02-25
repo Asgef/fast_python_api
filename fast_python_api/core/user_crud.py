@@ -62,7 +62,7 @@ async def create_user(
     return UserPublic(**user.to_dict())
 
 
-async def update_user(
+async def update_user( # noqa C901
         user_id: UUID,
         update_data: UserUpdate,
         session: AsyncSession
