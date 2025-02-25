@@ -4,6 +4,9 @@ from datetime import datetime
 
 
 class LoginInDB(LoginBase):
+    """
+    Represents a login in the database.
+    """
     uuid: str
     password: str
 
@@ -11,10 +14,16 @@ class LoginInDB(LoginBase):
 
 
 class NameInDB(NameBase):
+    """
+    Represents a name in the database.
+    """
     user_id: str
 
 
 class UserInDB(UserBase):
+    """
+    Represents a user in the database.
+    """
     id: str
     login: LoginInDB
     created_at: datetime | None = None

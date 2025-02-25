@@ -3,6 +3,7 @@ from datetime import date
 
 
 class NameBase(BaseModel):
+    """Base schema for user's name."""
     title: str
     first_name: str
     last_name: str
@@ -11,7 +12,7 @@ class NameBase(BaseModel):
 
 
 class LoginBase(BaseModel):
-
+    """Base schema for user's login."""
     username: str
     role: str = "user"
 
@@ -19,6 +20,7 @@ class LoginBase(BaseModel):
 
 
 class UserBase(BaseModel):
+    """Base schema for user."""
     name: NameBase
     login: LoginBase
     dob: date

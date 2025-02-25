@@ -7,17 +7,17 @@ class RandomUserParams(BaseModel):
         default=5,
         ge=1,
         le=20,
-        title="Number of users",
+        title="results",
         description="Number of users to return",
     )
     gender: Optional[Literal["male", "female"]] = Field(
         default=None,
-        title="Gender",
+        title="gender",
         description="Gender of the users",
     )
     nat: Optional[str] = Field(
         default=None,
-        title="Nationality",
+        title="nat",
         description="Nationality of the users",
     )
 
