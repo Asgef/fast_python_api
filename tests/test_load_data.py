@@ -5,6 +5,7 @@ import pytest
 from httpx import AsyncClient
 from aioresponses import aioresponses
 from tests.test_token import generate_valid_token
+from fast_python_api.settings import settings
 
 
 headers_admin = {"Authorization": f"Bearer {generate_valid_token()}"}
@@ -25,13 +26,18 @@ async def test_import_users_success(test_client: AsyncClient, test_session):
     with open(FIXTURES_SERVICE_PATH, "r") as f:
         mocked_payload = json.load(f)
 
+    expected_url = f"{settings.test_service_url}?results=5"
+
     with aioresponses() as mocked:
-        mocked.get(re.compile(
-            r'https://randomuser\.me/api.*'), payload=mocked_payload
+        mocked.get(
+            expected_url,
+            payload=mocked_payload
         )
+
         response = await test_client.post("/import", headers=headers_admin)
 
     assert response.status_code == 200
+
     response_json = response.json()
     assert "imported_users" in response_json
     assert response_json["imported_users"] == len(
