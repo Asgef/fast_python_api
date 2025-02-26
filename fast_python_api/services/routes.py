@@ -1,15 +1,15 @@
+from typing import Annotated
 from aiohttp import ClientSession
 from fast_python_api.settings import settings
-from fastapi import APIRouter, Depends, HTTPException, status
-from typing import Annotated
 from sqlalchemy.ext.asyncio import AsyncSession
-from fast_python_api.database import get_session as get_db_session
-from fast_python_api.services.utils import get_http_session
 from fast_python_api.chemas.token import TokenData
-from fast_python_api.chemas.params import RandomUserParams
-from fast_python_api.chemas.user_crud import UserPublic
 from fast_python_api.chemas.user_db import UserInDB
+from fast_python_api.chemas.user_crud import UserPublic
+from fast_python_api.chemas.params import RandomUserParams
+from fast_python_api.services.utils import get_http_session
+from fastapi import APIRouter, Depends, HTTPException, status
 from fast_python_api.auth.user_auth import verify_access_token
+from fast_python_api.database import get_session as get_db_session
 from fast_python_api.services.utils import (
     fetch_random_user, create_user_bulk
 )

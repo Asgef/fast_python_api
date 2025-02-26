@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, ConfigDict
+from pydantic import BaseModel, Field
 from typing import Literal, Optional
 
 
@@ -7,23 +7,19 @@ class RandomUserParams(BaseModel):
         default=5,
         ge=1,
         le=20,
-        title="results",
+        title="Number of users to return",
         description="Number of users to return",
+        json_schema_extra={"example": 10},
     )
     gender: Optional[Literal["male", "female"]] = Field(
         default=None,
-        title="gender",
+        title="Gender of the users",
         description="Gender of the users",
+        json_schema_extra={"example": "female"},
     )
     nat: Optional[str] = Field(
         default=None,
-        title="nat",
+        title="Nationality of the users",
         description="Nationality of the users",
+        json_schema_extra={"example": "GB"},
     )
-
-    model_config = ConfigDict(json_schema_extra={
-        "example": {
-            "results": 10,
-            "gender": "female"
-        }
-    })
