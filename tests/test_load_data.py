@@ -28,7 +28,6 @@ async def test_import_users_success(test_client: AsyncClient, test_session):
         mocked_payload = json.load(f)
 
     expected_url = f"{settings.test_service_url}?results=5"
-    logger.info(f"expected_url >>>>>>>>>>>>>>>>>>>>>>>>>>>>> {expected_url}")
 
     with aioresponses() as mocked:
         mocked.get(
@@ -39,12 +38,7 @@ async def test_import_users_success(test_client: AsyncClient, test_session):
         response = await test_client.post("/import", headers=headers_admin)
 
     assert response.status_code == 200
-
-    response_json = response.json()
-    assert "imported_users" in response_json
-    assert response_json["imported_users"] == len(
-        mocked_payload.get("results", [])
-    )
+    assert len(response.json()) == 5
 
 
 @pytest.mark.asyncio

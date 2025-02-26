@@ -10,6 +10,8 @@ from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 from fastapi import HTTPException, status
 from fast_python_api.chemas.params import RandomUserParams
 from datetime import datetime
+from sqlalchemy.future import select
+from sqlalchemy.orm import joinedload
 
 
 async def get_formated_users(data: list[dict]) -> list[UserInDB]:
@@ -54,27 +56,8 @@ async def get_formated_users(data: list[dict]) -> list[UserInDB]:
 
 async def create_user_bulk(
         users: list[UserInDB], session: AsyncSession
-) -> int:
-    """
-    Creates multiple users in the database at once.
+) -> list[UserInDB]:
 
-    Asynchronous function that creates multiple users in the database at once.
-    Takes a list of UserInDB objects and a database session,
-    then adds all users to the database and returns the number of
-    successfully added users.
-
-    Args:
-        users (list[UserInDB]): List of UserInDB objects to create in
-        the database.
-        session (AsyncSession): Database session to perform operations.
-
-    Returns:
-        int: Number of successfully added users.
-
-    Raises:
-        HTTPException: If an integrity error or other database error
-        occurs during addition.
-    """
     users_data = []
     logins_data = []
     names_data = []
@@ -91,7 +74,15 @@ async def create_user_bulk(
     try:
         session.add_all(users_data + logins_data + names_data)
         await session.commit()
-        return len(users_data)
+
+        result = await session.execute(
+            select(User)
+            .options(joinedload(User.name), joinedload(User.login))
+            .where(User.id.in_([u.id for u in users_data]))
+        )
+        users_data = result.scalars().all()
+
+        return [UserInDB(**user.to_dict()) for user in users_data]
 
     except IntegrityError as e:
         await session.rollback()
