@@ -19,7 +19,11 @@ router = APIRouter(tags=["Auth"])
     description="Get access token. "
                 "The returned token should be used in the Authorization "
                 "header in the Bearer format.",
-    response_model=Token
+    response_model=Token,
+    responses={
+        200: {"description": "Token successfully created"},
+        401: {"description": "Incorrect username or password"},
+    }
 )
 async def login_for_access_token(
         form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
@@ -27,17 +31,24 @@ async def login_for_access_token(
 ) -> Token:
     """
     Get access token.
-
     This endpoint is used to obtain an access token. It takes in a username
     and password, and returns an access token if the credentials are valid.
-
     Args:
         form_data (OAuth2PasswordRequestForm): The username and password to
             authenticate with.
         session (AsyncSession): The database session to use.
-
     Returns:
         Token: The access token and its type.
+    Raises:
+        HTTPException: If the credentials are invalid, an HTTP 401 error
+        is raised with a message "Incorrect username or password".
+    Example:
+        Request:
+        POST /token
+        Body: {"username": "user", "password": "pass"}
+        Response:
+        Status: 200 OK
+        Body: {"access_token": "token", "token_type": "bearer"}
     """
     user = await authenticate_user(
         form_data.username, form_data.password, session

@@ -20,7 +20,32 @@ router = APIRouter(prefix="/users", tags=["Users"])
     description="Retrieve a list of users with pagination options. "
                 "Use skip and limit query parameters to control the "
                 "number of returned users.",
-    dependencies=[Depends(verify_access_token)]
+    dependencies=[Depends(verify_access_token)],
+    responses={
+        200: {
+            "description": "Successful retrieval of users list",
+            "content": {"application/json": {"example": [
+                {
+                    "name": {
+                        "title": "string",
+                        "first_name": "string",
+                        "last_name": "string"
+                    },
+                    "login": {
+                        "username": "string",
+                        "role": "string",
+                        "uuid": "string"
+                    },
+                    "dob": "string",
+                    "city": "string",
+                    "email": "string",
+                    "created_at": "string"
+                }
+            ]}
+            }
+        },
+        401: {"description": "Unauthorized, invalid or missing credentials"},
+    }
 )
 async def get_users_list(
         session: Annotated[AsyncSession, Depends(get_session)],
@@ -31,7 +56,20 @@ async def get_users_list(
             int, Query(description="Maximum number of users to return", ge=1)
         ] = 5
 ) -> list[UserPublic]:
-    """Retrieve a list of users with pagination options. """
+    """
+    Retrieve a list of users with pagination options.
+
+    Args:
+        session (AsyncSession): The database session.
+        skip (int): Number of users to skip.
+        limit (int): Maximum number of users to return.
+
+    Returns:
+        list[UserPublic]: List of public user data.
+
+    Raises:
+        HTTPException: 401 Unauthorized if credentials are invalid.
+    """
     items = await get_users(session)
     return items[skip: skip + limit]
 
@@ -40,13 +78,31 @@ async def get_users_list(
     '/{user_id}',
     dependencies=[Depends(verify_access_token)],
     summary="Retrieve a user by ID",
-    description="Get a user by ID. Only accessible by logged in users."
+    description="Get a user by ID. Only accessible by logged in users.",
+    responses={
+        200: {"description": "Successful retrieval of user"},
+        401: {"description": "Unauthorized, invalid or missing credentials"},
+        404: {"description": "User not found"}
+    }
 )
 async def get_user(
         user_id: Annotated[UUID, Path(description="The ID of the user")],
         session: Annotated[AsyncSession, Depends(get_session)]
 ) -> UserPublic:
-    """Retrieve a user by ID. Only accessible by logged in users."""
+    """
+    Retrieve a user by ID. Only accessible by logged in users.
+
+    Args:
+        user_id (UUID): The ID of the user.
+        session (AsyncSession): The database session.
+
+    Returns:
+        UserPublic: The public representation of the user.
+
+    Raises:
+        HTTPException: 401 Unauthorized if credentials are invalid.
+        HTTPException: 404 Not Found if the user does not exist.
+    """
     user_db = await get_user_by_id(user_id, session)
     if not user_db:
         raise HTTPException(
@@ -60,14 +116,33 @@ async def get_user(
 @router.post(
     '/create',
     summary="Create a new user",
-    description="Create a new user. Only accessible by admins."
+    description="Create a new user. Only accessible by admins.",
+    responses={
+        200: {"description": "User successfully created"},
+        400: {"description": "Bad request, invalid data"},
+        401: {"description": "Unauthorized, invalid or missing credentials"},
+        403: {"description": "Forbidden, not enough permissions"}
+    }
 )
 async def create_new_user(
         user_data: Annotated[UserCreate, UserCreate],
         current_user: Annotated[TokenData, Depends(verify_access_token)],
         session: Annotated[AsyncSession, Depends(get_session)]
 ) -> UserPublic:
-    """Create a new user. Only accessible by admins."""
+    """
+    Create a new user. Only accessible by admins.
+
+    Args:
+        user_data (UserCreate): Data for the new user.
+        current_user (TokenData): The current authenticated user.
+        session (AsyncSession): The database session.
+
+    Returns:
+        UserPublic: The public representation of the created user.
+
+    Raises:
+        HTTPException: 403 Forbidden if the user is not an admin.
+    """
     if current_user.role != 'admin':
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
@@ -80,8 +155,14 @@ async def create_new_user(
 @router.put(
     "/{user_id}",
     summary="Update a user",
-    description="Update a user."
-                "Only accessible by admins or the user themselves.",
+    description="Update a user. Only accessible by admins or the user themselves.", # noqa
+    responses={
+        200: {"description": "User successfully updated"},
+        400: {"description": "Bad request, invalid data"},
+        401: {"description": "Unauthorized, invalid or missing credentials"},
+        403: {"description": "Forbidden, not enough permissions"},
+        404: {"description": "User not found"}
+    }
 )
 async def update_user_endpoint(
     user_id: UUID,
@@ -91,6 +172,19 @@ async def update_user_endpoint(
 ) -> UserPublic:
     """
     Update a user. Only accessible by admins or the user themselves.
+
+    Args:
+        user_id (UUID): ID of the user to update.
+        update_data (UserUpdate): Data to update the user with.
+        current_user (TokenData): The current authenticated user.
+        session (AsyncSession): The database session.
+
+    Returns:
+        UserPublic: The public representation of the updated user.
+
+    Raises:
+        HTTPException: 403 Forbidden if the user does not have permission.
+        HTTPException: 404 Not Found if the user does not exist.
     """
     if current_user.role != 'admin':
         if current_user.id != str(user_id):
@@ -104,8 +198,13 @@ async def update_user_endpoint(
 @router.delete(
     "/{user_id}",
     summary="Delete a user",
-    description="Delete a user. "
-                "Only accessible by admins or the user themselves.",
+    description="Delete a user. Only accessible by admins or the user themselves.", # noqa
+    responses={
+        200: {"description": "User successfully deleted"},
+        401: {"description": "Unauthorized, invalid or missing credentials"},
+        403: {"description": "Forbidden, not enough permissions"},
+        404: {"description": "User not found"}
+    }
 )
 async def delete_user_endpoint(
         user_id: UUID,
@@ -114,6 +213,18 @@ async def delete_user_endpoint(
 ) -> UserPublic:
     """
     Delete a user. Only accessible by admins or the user themselves.
+
+    Args:
+        user_id (UUID): ID of the user to delete.
+        current_user (TokenData): The current authenticated user.
+        session (AsyncSession): The database session.
+
+    Returns:
+        UserPublic: The public representation of the deleted user.
+
+    Raises:
+        HTTPException: 403 Forbidden if the user does not have permission.
+        HTTPException: 404 Not Found if the user does not exist.
     """
     user = await get_user_by_id(user_id, session)
 
@@ -128,7 +239,7 @@ async def delete_user_endpoint(
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail="You do not have permission to delete this user"
-            )  # TODO: Вынести проверку в отдельную функцию
+            )
 
     await session.delete(user)
     await session.commit()

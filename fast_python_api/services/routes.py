@@ -21,7 +21,85 @@ router = APIRouter(tags=["External API"])
 @router.get(
     '/test',
     summary="Test external API",
-    description="Test external API, fetches random users."
+    description="Test external API, fetches random users.",
+    responses={
+        200: {
+            "description": "Ответ с данными о случайных пользователях",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "results": [
+                            {
+                                "gender": "string",
+                                "name": {
+                                    "title": "string",
+                                    "first": "string",
+                                    "last": "string"
+                                },
+                                "location": {
+                                    "street": {
+                                        "number": "integer",
+                                        "name": "string"
+                                    },
+                                    "city": "string",
+                                    "state": "string",
+                                    "country": "string",
+                                    "postcode": "integer",
+                                    "coordinates": {
+                                        "latitude": "string",
+                                        "longitude": "string"
+                                    },
+                                    "timezone": {
+                                        "offset": "string",
+                                        "description": "string"
+                                    }
+                                },
+                                "email": "string",
+                                "login": {
+                                    "uuid": "string",
+                                    "username": "string",
+                                    "password": "string",
+                                    "salt": "string",
+                                    "md5": "string",
+                                    "sha1": "string",
+                                    "sha256": "string"
+                                },
+                                "dob": {
+                                    "date": "string",
+                                    "age": "integer"
+                                },
+                                "registered": {
+                                    "date": "string",
+                                    "age": "integer"
+                                },
+                                "phone": "string",
+                                "cell": "string",
+                                "id": {
+                                    "name": "string",
+                                    "value": "string"
+                                },
+                                "picture": {
+                                    "large": "string",
+                                    "medium": "string",
+                                    "thumbnail": "string"
+                                },
+                                "nat": "string"
+                            }
+                        ],
+                        "info": {
+                            "seed": "string",
+                            "results": "integer",
+                            "page": "integer",
+                            "version": "string"
+                        }
+                    }
+                }
+            }
+        },
+        500: {
+            "description": "The external API is not accessible.",
+        }
+    }
 )
 async def external_api_test(
         session: Annotated[ClientSession, Depends(get_http_session)],
@@ -36,13 +114,18 @@ async def external_api_test(
     request and the parameters
     defined in RandomUserParams for query parameters.
 
+    Args:
+        session (ClientSession): The HTTP session
+            for making API requests.
+        params (RandomUserParams): Parameters for fetching random users.
+
     Returns:
         dict: The JSON response from the external API
-        containing random user data.
+            containing random user data.
 
     Raises:
         HTTPException: If the external API is not accessible
-        or returns an error.
+            or returns an error.
     """
     q_params = params.model_dump(exclude_unset=True, exclude_none=True)
     response = await session.get(
@@ -54,7 +137,44 @@ async def external_api_test(
 @router.post(
     '/import',
     summary="Import users from external API",
-    description="Import users from external API, only accessible by admins."
+    description="Import users from external API, only accessible by admins.",
+    responses={
+        200: {
+            "description": "Users imported successfully.",
+            "content": {
+                "application/json": {
+                    "example": [
+                        {
+                            "name": {
+                                "title": "string",
+                                "first_name": "string",
+                                "last_name": "string"
+                            },
+                            "login": {
+                                "username": "string",
+                                "role": "string",
+                                "uuid": "string"
+                            },
+                            "dob": "string",
+                            "city": "string",
+                            "email": "string",
+                            "created_at": "string"
+                        }
+                    ]
+                }
+            }
+        },
+        400: {
+            "description": "The input parameters are invalid.",
+        },
+        401: {
+            "description": "The user is not authenticated or "
+                           "the token is invalid.",
+        },
+        403: {
+            "description": "The user is not an admin.",
+        }
+    }
 )
 async def import_users(
         params: Annotated[RandomUserParams, Depends()],
@@ -75,13 +195,13 @@ async def import_users(
         params (RandomUserParams): Parameters for fetching random users.
         current_user (TokenData): The currently authenticated user.
         db_session (AsyncSession): The database session
-        for database operations.
+            for database operations.
         http_session (ClientSession): The HTTP session
-        for making API requests.
+            for making API requests.
 
     Returns:
         list[UserPublic]: A list of public user data
-        after successful import.
+            after successful import.
     """
     if current_user.role != 'admin':
         raise HTTPException(
