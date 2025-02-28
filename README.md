@@ -186,7 +186,7 @@ curl -X 'POST' \
 ## Deployment
 
 - **Deployment Platforms:**\
-  The application is deployed on **Render** and can be accessed at: [Deployment Link Placeholder].
+  The application is deployed on **Render** and can be accessed at: https://fast-python-api-nepn.onrender.com/.
 - **Deployment Steps:**
   - Configure environment variables on your chosen platform.
   - Set up CI/CD if required.
