@@ -22,7 +22,7 @@ class Settings(BaseSettings):
         default_factory=lambda: {"results": "5"}
     )
     DEBUG: bool = False
-    DATABASE_URL: str
+    DATABASE_URL: str = Field(default="sqlite+aiosqlite:///:memory:")
     TEST_DATABASE_URL: str = "sqlite+aiosqlite:///:memory:"
     SECRET_KEY: str
     ALGORITHM: str = "HS256"
@@ -31,4 +31,3 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
-print(settings.DATABASE_URL)

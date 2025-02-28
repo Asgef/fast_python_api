@@ -1,7 +1,6 @@
 venv/
 dist/
 **/.idea/
-migrations/versions/
 __pycache__
 
 *.whl
