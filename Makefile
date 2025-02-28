@@ -7,7 +7,7 @@ start:
 	$(MANAGE) uvicorn  fast_python_api.main:app --reload
 
 start_production:
-	$(MANAGE) uvicorn  fast_python_api.main:app
+	$(MANAGE) uvicorn fast_python_api.main:app --host 0.0.0.0 --port 8000
 
 
 generate_requirements:
