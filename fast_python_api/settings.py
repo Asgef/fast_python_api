@@ -21,15 +21,10 @@ class Settings(BaseSettings):
     param_test_api: Dict[str, Any] = Field(
         default_factory=lambda: {"results": "5"}
     )
-    DEBUG: bool = Field(default=False)
-    DATABASE_URL: str = Field(
-        default="postgresql+asyncpg://postgres:postgres@localhost:5432/test_db",
-        json_schema_extra={'env': 'DATABASE_URL'}
-    )
+    DEBUG: bool = False
+    DATABASE_URL: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/test_db" # noqa C901
     TEST_DATABASE_URL: str = "sqlite+aiosqlite:///:memory:"
-    SECRET_KEY: str = Field(
-        json_schema_extra={'env': 'SECRET_KEY'}
-    )
+    SECRET_KEY: str
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     APP_VERSION: str = "1.0.0"
