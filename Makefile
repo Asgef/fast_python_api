@@ -22,6 +22,10 @@ migrate:
 migrate_up:
 	${MANAGE} alembic upgrade head
 
+build:
+	make migrate
+	make migrate_up
+
 test:
 	$(MANAGE) pytest -vvv
 
