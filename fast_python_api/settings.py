@@ -22,7 +22,7 @@ class Settings(BaseSettings):
         default_factory=lambda: {"results": "5"}
     )
     DEBUG: bool = False
-    DATABASE_URL: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/test_db" # noqa C901
+    DATABASE_URL: str
     TEST_DATABASE_URL: str = "sqlite+aiosqlite:///:memory:"
     SECRET_KEY: str
     ALGORITHM: str = "HS256"
@@ -31,3 +31,4 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
+print(settings.DATABASE_URL)
