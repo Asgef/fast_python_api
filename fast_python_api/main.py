@@ -51,7 +51,12 @@ async def homepage():
     })
 
 
-@app.head("/", include_in_schema=False)
+@app.head(
+    "/",
+    include_in_schema=False,
+    summary="Check the app status",
+    description="This route is used by Render.com to check if the app is up and running."  # noqa С901
+)
 async def homepage_head():
     return Response(status_code=200)
 
