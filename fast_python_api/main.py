@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, Response
 from starlette.responses import JSONResponse
 from typing import Annotated
 from fast_python_api.chemas.user_db import UserInDB
@@ -49,6 +49,11 @@ async def homepage():
         'version': settings.APP_VERSION,
         'documentation': '/docs'
     })
+
+
+@app.head("/", include_in_schema=False)
+async def homepage_head():
+    return Response(status_code=200)
 
 
 @app.get(
