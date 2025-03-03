@@ -1,3 +1,4 @@
+import sys
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 from fast_python_api.settings import settings
@@ -29,15 +30,16 @@ async def get_session() -> AsyncSession:
         yield session
 
 
+if "pytest" in sys.modules or __name__ == "__main__":
 # Synchronous engine (for working in the shell)
-sync_engine = create_engine(
-    settings.DATABASE_URL.replace("postgresql+asyncpg", "postgresql"),
-    echo=True
-)
+    sync_engine = create_engine(
+        settings.DATABASE_URL.replace("postgresql+asyncpg", "postgresql"),
+        echo=True
+    )
 
-# Factory for synchronous sessions
-SessionLocal = sessionmaker(
-    bind=sync_engine,
-    autocommit=False,
-    autoflush=False
-)
+    # Factory for synchronous sessions
+    SessionLocal = sessionmaker(
+        bind=sync_engine,
+        autocommit=False,
+        autoflush=False
+    )
