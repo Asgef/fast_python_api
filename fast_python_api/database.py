@@ -31,7 +31,7 @@ async def get_session() -> AsyncSession:
 
 
 if "pytest" in sys.modules or __name__ == "__main__":
-# Synchronous engine (for working in the shell)
+    # Synchronous engine (for working in the shell)
     sync_engine = create_engine(
         settings.DATABASE_URL.replace("postgresql+asyncpg", "postgresql"),
         echo=True
