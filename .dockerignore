@@ -6,7 +6,6 @@ __pycache__/
 .venv
 .env
 .github/
-migrations/
 tests/
 .gitignore
 .coverage
@@ -14,3 +13,4 @@ coverage.xml
 Dockerfile
 description.md
 README.md
+setup.cfg
