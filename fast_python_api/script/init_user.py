@@ -1,4 +1,3 @@
-from fast_python_api.settings import settings
 from fast_python_api.database import get_session
 from fast_python_api.models import User, Login, Name
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -8,7 +7,9 @@ from fast_python_api.core.user_db import get_user_by_id
 
 
 async def init_user(data: dict, session: AsyncSession) -> None:
-    existing_user = await get_user_by_id(user_uuid=data['login']['uuid'], session=session)
+    existing_user = await get_user_by_id(
+        user_uuid=data['login']['uuid'], session=session
+    )
     if existing_user:
         print(f'User {existing_user.login.username} already exists')
         return
@@ -25,7 +26,6 @@ async def init_user(data: dict, session: AsyncSession) -> None:
     user = User(**user_data.model_dump(exclude={"login", "name"}))
     login = Login(**user_data.login.model_dump())
     name = Name(**user_data.name.model_dump())
-
 
     try:
         session.add(user)
@@ -62,7 +62,7 @@ if __name__ == '__main__':
             "uuid": "6c3b3609-6fae-4a71-a9fd-94eaabf12c9a",
             "role": "admin",
             "username": "johndoe",
-            "password": "$2b$12$5xCWw8DuLXfG1RY8sw9Zmuqse7Tdr4.5R3zUtxlF0Ct/6D2qne.5a"
+            "password": "$2b$12$5xCWw8DuLXfG1RY8sw9Zmuqse7Tdr4.5R3zUtxlF0Ct/6D2qne.5a"  # noqa C901
         }
     }
     asyncio.run(main())
