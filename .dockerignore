@@ -2,9 +2,11 @@ __pycache__/
 *.pyc
 *.pyo
 *.log
+.idea
 .git
 .venv
 .env
+.pytest_cache
 .github/
 tests/
 .gitignore
@@ -14,3 +16,4 @@ Dockerfile
 description.md
 README.md
 setup.cfg
+pytest.ini

@@ -1,11 +1,29 @@
 services:
     app:
       container_name: fast_python_api
-      build: ./
+      build:
+        context: .
+        dockerfile: Dockerfile
       depends_on:
         - db
+
       command: >
-        bash -c "alembic upgrade head && uvicorn fast_python_api.main:app --host 0.0.0.0 --port 8000"
+           bash -c "
+             echo '>>> Waiting for Postgres (db:5432) ...';
+             while ! (echo > /dev/tcp/db/5432) 2> /dev/null; do
+               echo 'Postgres not ready yet. Sleeping 1s...';
+               sleep 1;
+             done;
+
+             echo '>>> Postgres is up! Running Alembic migrations...';
+             alembic upgrade head;
+
+             echo '>>> Running init_user script...';
+             python -m fast_python_api.script.init_user;
+
+             echo '>>> Starting Uvicorn...';
+             uvicorn fast_python_api.main:app --host 0.0.0.0 --port 8000
+           "
 
       volumes:
         - ./:/app
@@ -17,7 +35,7 @@ services:
 
     db:
       container_name: fast_python_api_db
-      image: postgres
+      image: postgres:latest
       environment:
         - POSTGRES_DB=fast_python_api
         - POSTGRES_USER=${POSTGRES_DB_USER}
