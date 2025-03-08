@@ -2,7 +2,6 @@
 
 **This project is a [test assignment](https://basalt-crabapple-753.notion.site/Python-150fd978e02c800b91b3eabcb85a57b0) for the Python Intern / Backend Developer position.**
 
-
 [![Maintainability](https://api.codeclimate.com/v1/badges/3330a77ad116c8b50205/maintainability)](https://codeclimate.com/github/Asgef/fast_python_api/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/3330a77ad116c8b50205/test_coverage)](https://codeclimate.com/github/Asgef/fast_python_api/test_coverage)
 
 ## Overview
@@ -84,9 +83,6 @@
   ```
   The API will be available at `http://127.0.0.1:8000`.
 
-
-
-
 ## Testing
 
 - **Run tests with pytest:**
@@ -96,6 +92,10 @@
 
 ### API Tests with cURL
 
+#### Test User Credentials
+
+- **Username:** johndoe
+- **Password:** secret
 
 #### Get Access Token
 
@@ -191,4 +191,3 @@ curl -X 'POST' \
   - Configure environment variables on your chosen platform.
   - Set up CI/CD if required.
   - Provide a link to the deployed service once live.
-
