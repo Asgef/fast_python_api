@@ -34,3 +34,24 @@ test-coverage:
 
 shell:
 	$(MANAGE) ipython
+
+dev:
+	docker-compose -f docker-compose.dev.yml up --build
+
+stop-dev:
+	docker-compose -f docker-compose.dev.yml down
+
+logs-dev:
+	docker-compose -f docker-compose.dev.yml logs -f
+
+build-prod:
+	docker build --no-cache -t fast_python_api:latest .
+
+prod:
+	docker-compose -f docker-compose.prod.yml up -d
+
+stop-prod:
+	docker-compose -f docker-compose.prod.yml down
+
+logs-prod:
+	docker-compose -f docker-compose.prod.yml logs
